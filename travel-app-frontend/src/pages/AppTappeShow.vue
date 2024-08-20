@@ -11,6 +11,7 @@ export default {
         <RouterLink class="text-white m-3" :to="{name: 'dettagli-cibo'}">Vedi il cibo nel dettaglio</RouterLink>
         <RouterLink class="text-white m-3" :to="{name: 'tappe'}">torna alla lista delle tappe</RouterLink>
         <RouterLink class="text-white m-3" :to="{name: 'aggiungi-tappe'}">aggiungi tappa</RouterLink>
+        <RouterLink class="text-white m-3" :to="{name: 'modifica-tappa'}">modifica tappa</RouterLink>
 
 
     </div>
