@@ -41,13 +41,13 @@ const routes = [
         path: '/tappe', name: 'tappe', component: AppTappe
     },
     {
-        path: '/tappe/show', name: 'dettagli-tappa', component: AppTappeShow, props:true
+        path: '/tappe/:slug', name: 'dettagli-tappa', component: AppTappeShow, props:true
     },
     {
         path: '/tappe/create', name: 'aggiungi-tappe', component: AppTappeCreate
     },
     {
-        path: '/tappe/edit', name: 'modifica-tappa', component: AppTappeEdit, props:true
+        path: '/tappe/edit/:slug', name: 'modifica-tappa', component: AppTappeEdit, props:true
     },
         {
         path: '/cibi/show', name: 'dettagli-cibo', component: AppCibiShow, props:true

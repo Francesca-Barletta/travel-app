@@ -1,11 +1,13 @@
 
 <script>
 import { getStops } from '../services/stops/index';
+import { getAuth } from 'firebase/auth';
 
 export default {
   data() {
     return {
-      stops: []
+      stops: [],
+      user: null
     };
   },
   async created() {
@@ -14,6 +16,11 @@ export default {
     } catch (error) {
       console.error('Error fetching days: ', error);
     }
+    const auth = getAuth();
+    this.user = auth.currentUser;
+    auth.onAuthStateChanged(user => {
+      this.user = user;
+    });
   }
 };
 </script>
@@ -28,11 +35,14 @@ export default {
                             <p>{{ stop.attivita }}</p>
                             <p>{{ stop.descrizione }}</p>
                             
+                            <RouterLink class="btn btn-primary my-3" :to="{name: 'dettagli-tappa',params: { slug: stop.slug }}">Vedi la tappa nel dettaglio</RouterLink>
                         </div>
             </div>
         </div>
-        <RouterLink class="btn btn-primary my-3" :to="{name: 'dettagli-tappa'}">Vedi la tappa nel dettaglio</RouterLink>
-        <RouterLink class="btn btn-primary ms-3" to="/tappe/create">Aggiungi tappe</RouterLink>
+        <div v-if="user">
+
+          <RouterLink class="btn btn-primary ms-3" to="/tappe/create">Aggiungi tappe</RouterLink>
+        </div>
     </div>
 </template>
 
