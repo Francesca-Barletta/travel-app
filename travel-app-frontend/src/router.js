@@ -27,10 +27,10 @@ const routes = [
         path: '/giorni/create', name: 'aggiungi-giorni', component: AppGiorniCreate
     },
     {
-        path: '/giorni/show', name: 'dettagli-giorno', component: AppGiorniShow, props:true
+        path: '/giorni/:slug', name: 'dettagli-giorno', component: AppGiorniShow, props:true
     },
     {
-        path: '/giorni/edit', name: 'modifica-giorno', component: AppGiorniEdit, props:true
+        path: '/giorni/edit/:slug', name: 'modifica-giorno', component: AppGiorniEdit, props:true
     },
     {
         path: '/tappe', name: 'tappe', component: AppTappe

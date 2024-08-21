@@ -1,29 +1,59 @@
 <script>
-export default {
+import { createStop } from '../services/stops/create';
 
-}
+export default {
+  data() {
+    return {
+      newStop: {
+        paese: '',
+        attivita: '',
+        descrizione: '',
+   
+      }
+    };
+  },
+  methods: {
+    async addStop() {
+      try {
+        await createStop(this.newStop);
+        // Puoi aggiungere un messaggio di successo o redirigere l'utente
+        alert('tappa aggiunto con successo!');
+        // Resetta il modulo se necessario
+        this.newStop = {
+            paese: '',
+            attivita: '',
+            descrizione: '',
+          // Resetta altri campi se necessario
+        };
+      } catch (error) {
+        console.error('Error adding stop: ', error);
+        // Mostra un messaggio di errore se necessario
+      }
+    }
+  }
+};
 </script>
 <template>
     <div class="container my-5 ">
 
         <h1 class="text-primary text-center">Qui il form per creare tappe</h1>
-        <div class="container my-5 p-0">
+        <div class="container bg-primary shadow rounded my-5 p-3">
             
-            <form>
+            <form @submit.prevent="addStop">
 
                 <div>
                     <label for="paese" class="form-label text-white">Inserisci Paese</label>
-                    <input class="form-control" v-model="paese" type="text" id="paese" placeholder="Default input"
+                    <input class="form-control" v-model=" newStop.paese" type="text" id="paese" placeholder="Default input"
                         aria-label="default input example">
                 </div>
                 <div>
                     <label for="attivita" class="form-label text-white">Inserisci attività</label>
-                    <input class="form-control" v-model="attivita" type="text" id="attivita" placeholder="Default input"
+                    <input class="form-control" v-model="newStop.attivita" type="text" id="attivita" placeholder="Default input"
                         aria-label="default input example">
                 </div>
                 <div class="mb-3">
                     <label for="descrizione" class="form-label text-white">Inserisci descrizione</label>
-                    <textarea class="form-control" v-model="descrizione" id="descrizione" rows="3"></textarea>
+                    <textarea class="form-control" v-model="newStop.descrizione" id="descrizione" rows="3"></textarea>
                 </div>
 
 
