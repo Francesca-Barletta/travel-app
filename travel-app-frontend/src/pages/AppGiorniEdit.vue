@@ -1,4 +1,5 @@
 <script>
+import { getAuth } from 'firebase/auth';
 import { updateDay } from '../services/days/edit';
 import { getDayBySlug } from '../services/days/show'; // Importa la funzione per ottenere i dettagli
 
@@ -16,6 +17,12 @@ export default {
         };
     },
     async created() {
+        const auth = getAuth();
+        this.user = auth.currentUser;
+        if(!this.user) {
+            this.$router.push({name:'login'});
+            return;
+        }
         try {
             const dayData = await getDayBySlug(this.slug);
             this.newDay = dayData;
@@ -37,6 +44,7 @@ export default {
 };
 </script>
 <template>
+    <div v-if="user">
     <div class="container my-5 ">
 
         <h1 class="text-primary text-center">Qui il form per modificare il giorno</h1>
@@ -83,6 +91,7 @@ export default {
             </div>
 
         </div>
+    </div>
 </template>
 
 <style lang="scss" scoped></style>

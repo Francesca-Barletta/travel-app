@@ -1,10 +1,12 @@
 <script>
 import { getDays } from '../services/days/index';
+import { getAuth } from 'firebase/auth';
 
 export default {
   data() {
     return {
-      days: []
+      days: [],
+      user: null
     };
   },
   async created() {
@@ -13,6 +15,11 @@ export default {
     } catch (error) {
       console.error('Error fetching days: ', error);
     }
+    const auth = getAuth();
+    this.user = auth.currentUser;
+    auth.onAuthStateChanged(user => {
+      this.user = user;
+    });
   }
 };
 </script>
@@ -31,7 +38,10 @@ export default {
                         </div>
             </div>
         </div>
-        <RouterLink class="btn btn-primary mt-3 ms-3" :to="{ name: 'aggiungi-giorni' }">aggiungi giorni</RouterLink>
+        <div v-if="user">
+
+          <RouterLink class="btn btn-primary mt-3 ms-3" :to="{ name: 'aggiungi-giorni' }">aggiungi giorni</RouterLink>
+        </div>
     </div>
 </template>
 

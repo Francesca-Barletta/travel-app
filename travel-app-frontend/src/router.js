@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { getAuth } from 'firebase/auth';
 import AppHome from './pages/AppHome.vue';
 import AppGiorni from './pages/AppGiorni.vue';
 import AppGiorniCreate from './pages/AppGiorniCreate.vue';
@@ -11,6 +12,7 @@ import AppTappeEdit from './pages/AppTappeEdit.vue';
 import AppCibiCreate from './pages/AppCibiCreate.vue';
 import AppCibiEdit from './pages/AppCibiEdit.vue';
 import AppCibiShow from './pages/AppCibiShow.vue';
+import AppLogin from './pages/AppLogin.vue';
 
 
 
@@ -19,6 +21,9 @@ import AppCibiShow from './pages/AppCibiShow.vue';
 const routes = [
     {
         path: '/', name: 'home', component: AppHome
+    },
+    {
+        path: '/login', name: 'login', component: AppLogin
     },
     {
         path: '/giorni', name: 'giorni', component: AppGiorni
@@ -59,4 +64,15 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+router.beforeEach((to, from, next) => {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if(to.matched.some(record => record.meta.requiresAuth) && !currentUser) {
+        next({ name:'login'});
+    } else {
+        next();
+    }
+});
+
 export default router
