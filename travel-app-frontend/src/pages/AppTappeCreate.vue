@@ -1,5 +1,6 @@
 <script>
-import { createStop } from '../services/stops/create';
+import { createStop, getDaysForStops } from '../services/stops/create';
+
 
 export default {
   data() {
@@ -8,9 +9,22 @@ export default {
         paese: '',
         attivita: '',
         descrizione: '',
-   
-      }
+        day_id:'',
+        cibi: []
+      },
+      days : [],
+      loadingdays: false,
     };
+  },
+  async created() {
+    this.loadingDays = true;
+    try {
+     this.days = await getDaysForStops(); // Carica i primi 100 giorni, puoi adattare il numero se necessario
+    } catch (error) {
+      console.error('Error loading days: ', error);
+    } finally {
+      this.loadingDays = false;
+    }
   },
   methods: {
     async addStop() {
@@ -23,6 +37,8 @@ export default {
             paese: '',
             attivita: '',
             descrizione: '',
+            day_id:'',
+            cibi: [],
           // Resetta altri campi se necessario
         };
       } catch (error) {
@@ -55,6 +71,14 @@ export default {
                     <label for="descrizione" class="form-label text-white">Inserisci descrizione</label>
                     <textarea class="form-control" v-model="newStop.descrizione" id="descrizione" rows="3"></textarea>
                 </div>
+                <div class="mb-3">
+                <label for="day_id" class="form-label">Seleziona Giorno</label>
+                <select class="form-control" v-model="newStop.day_id">
+                    <option v-for="day in days" :key="day.id" :value="day.id">
+                        {{ day.titolo }}
+                    </option>
+                </select>
+            </div>
 
 
                 <button class="btn btn-primary mb-3" type="submit">Aggiungi</button>

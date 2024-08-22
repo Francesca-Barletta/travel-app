@@ -1,17 +1,28 @@
-
-
 import { db } from '../../../src/firebase';
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, query, orderBy, limit, getDocs, startAfter } from 'firebase/firestore';
 
-// Leggere tutti i documenti
-export const getDays = async () => {
+export const getDays = async (lastVisible, pageSize = 4) => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'days'));
-    const days = [];
-    querySnapshot.forEach((doc) => {
-      days.push({ id: doc.id, ...doc.data() });
-    });
-    return days;
+    // Crea la query per recuperare i giorni ordinati per 'creazione'
+    const daysQuery = query(
+      collection(db, 'days'),
+      orderBy('data', 'asc'),
+      limit(pageSize)
+    );
+
+    // Se lastVisible è definito, utilizza startAfter per la paginazione
+    const finalQuery = lastVisible ? query(daysQuery, startAfter(lastVisible)) : daysQuery;
+
+    const querySnapshot = await getDocs(finalQuery);
+
+    // Estrai i documenti e l'ultimo documento per la paginazione
+    const days = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const newLastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    return {
+      days,
+      newLastVisible,
+    };
   } catch (e) {
     console.error('Error getting documents: ', e);
     throw e;

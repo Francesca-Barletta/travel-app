@@ -9,8 +9,10 @@ export default {
         regione: '',
         alloggio: '',
         citta_alloggio: '',
-        data: ''
-        // Aggiungi altri campi se necessario
+        data: '',
+        tappe: [],
+        
+        
       }
     };
   },
@@ -26,7 +28,9 @@ export default {
           regione: '',
           alloggio: '',
           citta_alloggio: '',
-          data: ''
+          data: '',
+          tappe: [], 
+         
           // Resetta altri campi se necessario
         };
       } catch (error) {

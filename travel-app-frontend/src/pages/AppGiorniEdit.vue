@@ -72,6 +72,11 @@ export default {
                     <input class="form-control" v-model="newDay.citta_alloggio" type="text" id="citta_alloggio" 
                         aria-label="citta_alloggio">
                 </div>
+                <div>
+                    <label for="data" class="form-label text-white">Inserisci la data</label>
+                    <input class="form-control" v-model="newDay.data" type="text" id="data" 
+                        aria-label="data">
+                </div>
              
 
                 <button class="btn btn-primary my-3" type="submit">Modifica</button>

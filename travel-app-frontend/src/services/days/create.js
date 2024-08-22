@@ -1,20 +1,31 @@
 import { db } from '../../../src/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, Timestamp } from 'firebase/firestore';
 import slugify from 'slugify'; 
+import { v4 as uuidv4 } from 'uuid';
 
 export const createDay = async (dayData) => {
   try {
     // Crea uno slug basato sul titolo
+    const dayId = uuidv4();
     const slug = slugify(dayData.titolo, { lower: true, strict: true });
+    const currentTimestamp = Timestamp.now(); // Ottiene il timestamp corrente
+    const dayDoc = {
+      ...dayData,
+      id: dayId, 
+      slug,
+      creazione: currentTimestamp,
+      tappe: dayData.tappe || [],
+     
+    };
 
     // Aggiunge lo slug ai dati del giorno
-    const dayWithSlug = { ...dayData, slug };
+    // const dayWithSlug = { ...dayData, slug };
 
     // Aggiunge il documento alla raccolta 'days'
-    const docRef = await addDoc(collection(db, 'days'), dayWithSlug);
-
-    console.log('Document written with ID: ', docRef.id);
-    return docRef.id;
+    const docRef = doc(collection(db, 'days'), dayId);
+   await setDoc(docRef, dayDoc);
+    console.log('Document written with ID: ', dayId);
+    return dayId;
   } catch (e) {
     console.error('Error adding document: ', e);
     throw e;
