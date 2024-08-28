@@ -1,4 +1,5 @@
 <script>
+import {getAuth} from 'firebase/auth';
 import { createStop, getDaysForStops } from '../services/stops/create';
 
 
@@ -13,16 +14,24 @@ export default {
         cibi: []
       },
       days : [],
-      loadingdays: false,
+      loadingDays: false,
     };
   },
   async created() {
+    const auth = getAuth();
+    this.user = auth.currentUser;
+
+    if (!this.user) {
+      this.$router.push({ name: 'login' });
+      return;
+    }
     this.loadingDays = true;
     try {
-     this.days = await getDaysForStops(); // Carica i primi 100 giorni, puoi adattare il numero se necessario
+      this.days = await getDaysForStops();
     } catch (error) {
-      console.error('Error loading days: ', error);
+      console.error('Error fetching days: ', error);
     } finally {
+
       this.loadingDays = false;
     }
   },

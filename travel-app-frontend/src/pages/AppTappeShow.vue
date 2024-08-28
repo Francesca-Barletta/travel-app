@@ -1,30 +1,38 @@
 <script>
-import { ref, onMounted } from 'vue';
-import { getStopBySlug } from '../services/stops/show'; 
 import { getAuth } from 'firebase/auth';
+import { getStopBySlug } from '../services/stops/show';
+
 export default {
-    props: ['slug'],
+  props: ['slug'],
   data() {
     return {
       stop: null,
-      user: null
-      
+      user: null,
+      error: null
     };
   },
   async created() {
     try {
+      // Recupera la tappa con giorno e cibo
+      console.log('Fetching stop with slug:', this.slug);
       this.stop = await getStopBySlug(this.slug);
+      console.log('Stop fetched:', this.stop);
+
+      // Recupera l'utente corrente
+      const auth = getAuth();
+      this.user = auth.currentUser;
+      auth.onAuthStateChanged(user => {
+        this.user = user;
+      });
+
     } catch (error) {
-      console.error('Error fetching stop: ', error);
+      this.error = error;
+      console.error('Error fetching stop or day document:', error);
     }
-    const auth = getAuth();
-    this.user = auth.currentUser;
-    auth.onAuthStateChanged(user => {
-      this.user = user;
-    });
   }
-}
+};
 </script>
+
 <template>
     <div class="container my-5 flex-grow-1">
 
@@ -35,6 +43,21 @@ export default {
                     <h4 class="fw-bold">{{ stop.paese }}</h4>
                     <p>{{ stop.attivita }}</p>
                     <p>{{ stop.descrizione }}</p>
+                    <div v-if="stop.day">
+                       <h5>Giorno Associato: {{ stop.day.titolo}}</h5>
+                     </div>
+                     <div v-if="stop.foods && stop.foods.length > 0">
+            <h5>Cibi Associati:</h5>
+            <ul>
+              <li v-for="food in stop.foods" :key="food.id">
+                <p>{{ food.piatto }}</p>
+                <p>{{ food.locale }}</p>
+                <p>{{ food.prezzo }} €</p>
+                <p>{{ food.voto }} / 10</p>
+              </li>
+            </ul>
+          </div>
+
                     <div v-if="user">
 
                         <RouterLink class="btn btn-primary" :to="{ name: 'modifica-tappa', params: { slug: stop.slug } }">modifica la tappa</RouterLink>

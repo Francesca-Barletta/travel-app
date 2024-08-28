@@ -1,5 +1,5 @@
 import { db } from '../../../src/firebase';
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import {  collection, getDocs, doc, updateDoc, query, where, orderBy, limit} from 'firebase/firestore';
 import slugify from 'slugify'; 
 
 export const updateStop = async (slug, stopData) => {
@@ -23,3 +23,19 @@ export const updateStop = async (slug, stopData) => {
         console.error('Error updating document: ', e);
     }
 };
+export const getDaysForStops = async (limitSize = 100) => {
+    try {
+      const daysQuery = query(
+        collection(db, 'days'),
+        orderBy('creazione', 'asc'),
+        limit(limitSize)
+      );
+      const querySnapshot = await getDocs(daysQuery);
+      const days = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return days;
+    } catch (e) {
+      console.error('Error fetching days: ', e);
+      throw e;
+    }
+  };
+  

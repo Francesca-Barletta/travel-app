@@ -1,5 +1,5 @@
 <script>
-import { createFood } from '../services/foods/create';
+import { createFood, getStopsForFoods } from '../services/foods/create';
 
 export default {
   data() {
@@ -8,26 +8,40 @@ export default {
         locale: '',
           piatto: '',
           descrizione: '',
-          prezzo: '',
-          voto: ''
-        // Aggiungi altri campi se necessario
-      }
+          prezzo: 0,
+          voto: 0,
+          stop_id: ''
+         },
+         stops : [],
+         loadingStops: false,
     };
+  },
+  async created() {
+    this.loadingStops = true;
+    try {
+     this.days = await getStopsForFoods(); 
+    } catch (error) {
+      console.error('Error loading stops: ', error);
+    } finally {
+      this.loadingStops = false;
+    }
   },
   methods: {
     async addFood() {
       try {
         await createFood(this.newFood);
-        // Puoi aggiungere un messaggio di successo o redirigere l'utente
-        alert('Giorno aggiunto con successo!');
-        // Resetta il modulo se necessario
+       
+        alert('Cibo aggiunto con successo!');
+        
         this.newFood = {
           locale: '',
           piatto: '',
           descrizione: '',
           prezzo: '',
-          voto: ''
-          // Resetta altri campi se necessario
+          voto: '',
+          stop_id: '',
+          stops: []
+          
         };
       } catch (error) {
         console.error('Error adding food: ', error);
@@ -65,6 +79,14 @@ export default {
             <div class="mb-3">
                 <label for="voto" class="form-label text-white">Inserisci voto</label>
                 <input class="form-control" type="number" v-model="newFood.voto" id="voto" >
+            </div>
+            <div class="mb-3">
+                <label for="day_id" class="form-label">Seleziona tappa</label>
+                <select class="form-control" v-model="newFood.day_id">
+                    <option v-for="stop in stops" :key="stop.id" :value="stop.id">
+                        {{ stop.paese }}
+                    </option>
+                </select>
             </div>
 
 
