@@ -46,14 +46,16 @@ export default {
                     <div v-if="stop.day">
                        <h5>Giorno Associato: {{ stop.day.titolo}}</h5>
                      </div>
-                     <div v-if="stop.foods && stop.foods.length > 0">
+                     <div v-if="stop.foods">
             <h5>Cibi Associati:</h5>
             <ul>
               <li v-for="food in stop.foods" :key="food.id">
+                <p>{{ console.log('cibo', food) }}</p>
                 <p>{{ food.piatto }}</p>
                 <p>{{ food.locale }}</p>
                 <p>{{ food.prezzo }} €</p>
                 <p>{{ food.voto }} / 10</p>
+                <RouterLink class="btn btn-primary m-2" :to="{name: 'dettagli-cibo', params: { slug: food.slug }}">Vedi il cibo nel dettaglio</RouterLink>
               </li>
             </ul>
           </div>
@@ -61,7 +63,7 @@ export default {
                     <div v-if="user">
 
                         <RouterLink class="btn btn-primary" :to="{ name: 'modifica-tappa', params: { slug: stop.slug } }">modifica la tappa</RouterLink>
-                        <RouterLink class="btn btn-primary m-2" :to="{name: 'dettagli-cibo'}">Vedi il cibo nel dettaglio</RouterLink>
+                       
                     </div>
                 </div>
             </div>

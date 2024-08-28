@@ -39,6 +39,8 @@ export const getStopBySlug = async (slug) => {
     const foodsSnapshot = await getDocs(foodsQuery);
     const foods = foodsSnapshot.docs.map(foodDoc => ({ id: foodDoc.id, ...foodDoc.data() }));
 
+    console.log('Foods:', foods);
+
     return {
       ...stopData,
       foods
