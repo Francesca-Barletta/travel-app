@@ -1,56 +1,51 @@
 <script>
-import { createFood, getStopsForFoods } from '../services/foods/create';
+import { createFood, getStopBySlug } from '../services/foods/create';
 
 export default {
+  props: ['slug'],
   data() {
     return {
       newFood: {
         locale: '',
-          piatto: '',
-          descrizione: '',
-          prezzo: 0,
-          voto: 0,
-          stop_id: ''
-         },
-         stops : [],
-         loadingStops: false,
+        piatto: '',
+        descrizione: '',
+        prezzo: 0,
+        voto: 0,
+        stop_id: ''
+      },
+      loading: false,
     };
   },
   async created() {
-    this.loadingStops = true;
-    try {
-     this.days = await getStopsForFoods(); 
-    } catch (error) {
-      console.error('Error loading stops: ', error);
-    } finally {
-      this.loadingStops = false;
+    if (this.slug) {
+      try {
+        // Trova la tappa corrispondente allo slug passato
+        const stop = await getStopBySlug(this.slug);
+        if (stop) {
+          this.newFood.stop_id = stop.id;  // Associa lo stop_id
+        } else {
+          throw new Error('Stop not found');
+        }
+      } catch (error) {
+        console.error('Error loading stop: ', error);
+      }
     }
   },
   methods: {
     async addFood() {
       try {
         await createFood(this.newFood);
-       
         alert('Cibo aggiunto con successo!');
-        
-        this.newFood = {
-          locale: '',
-          piatto: '',
-          descrizione: '',
-          prezzo: '',
-          voto: '',
-          stop_id: '',
-          stops: []
-          
-        };
+        this.$router.push({ name: 'dettagli-tappa', params: { slug: this.slug } });
       } catch (error) {
         console.error('Error adding food: ', error);
-        // Mostra un messaggio di errore se necessario
       }
-    }
+    },
+    
   }
 };
 </script>
+
 <template>
     <div class="container my-5 ">
 
@@ -80,14 +75,7 @@ export default {
                 <label for="voto" class="form-label text-white">Inserisci voto</label>
                 <input class="form-control" type="number" v-model="newFood.voto" id="voto" >
             </div>
-            <div class="mb-3">
-                <label for="day_id" class="form-label">Seleziona tappa</label>
-                <select class="form-control" v-model="newFood.day_id">
-                    <option v-for="stop in stops" :key="stop.id" :value="stop.id">
-                        {{ stop.paese }}
-                    </option>
-                </select>
-            </div>
+
 
 
                 <button class="btn btn-primary mb-3" type="submit">Aggiungi</button>

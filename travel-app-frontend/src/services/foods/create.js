@@ -1,23 +1,19 @@
 import { db } from '../../../src/firebase';
-import { collection, doc, setDoc, getDocs, orderBy, limit, query} from 'firebase/firestore';
+import { collection, doc, setDoc, getDoc, query, where, getDocs } from 'firebase/firestore';
 import slugify from 'slugify'; 
 import { v4 as uuidv4 } from 'uuid';
 
 export const createFood = async (foodData) => {
   try {
     const foodId = uuidv4();
-    // Crea uno slug basato sul nome del locale
     const slug = slugify(foodData.locale, { lower: true, strict: true });
 
     const foodDoc = { 
       ...foodData,
       id: foodId,
       slug,
-      
-     };
-   
+    };
 
-    // Aggiungi il documento alla raccolta 'foods'
     const docRef = doc(collection(db, 'foods'), foodId);
     await setDoc(docRef, foodDoc);
 
@@ -29,18 +25,18 @@ export const createFood = async (foodData) => {
   }
 };
 
-export const getStopsForFoods = async (limitSize = 100) => {
+export const getStopBySlug = async (slug) => {
   try {
-    const stopsQuery = query(
-      collection(db, 'stops'),
-      orderBy('creazione', 'asc'),
-      limit(limitSize)
-    );
+    const stopsQuery = query(collection(db, 'stops'), where('slug', '==', slug));
     const querySnapshot = await getDocs(stopsQuery);
-    const stops = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return stops;
+
+    if (!querySnapshot.empty) {
+      return querySnapshot.docs[0].data(); // Torna il primo documento trovato
+    } else {
+      throw new Error('No stop found with that slug');
+    }
   } catch (e) {
-    console.error('Error fetching stops: ', e);
+    console.error('Error fetching stop by slug: ', e);
     throw e;
   }
 };

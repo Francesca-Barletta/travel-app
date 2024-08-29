@@ -53,7 +53,7 @@ const routes = [
         path: '/cibi/:slug', name: 'dettagli-cibo', component: AppCibiShow, props:true
     },
     {
-        path: '/cibi/create', name: 'aggiungi-cibo', component: AppCibiCreate
+        path: '/cibi/create/:slug', name: 'aggiungi-cibo', component: AppCibiCreate, props:true
     },
     {
         path: '/cibi/edit/:slug', name: 'modifica-cibo', component: AppCibiEdit, props:true
