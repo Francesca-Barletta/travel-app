@@ -1,3 +1,4 @@
+
 <script>
 import { createFood, getStopBySlug } from '../services/foods/create';
 
@@ -41,7 +42,6 @@ export default {
         console.error('Error adding food: ', error);
       }
     },
-    
   }
 };
 </script>
@@ -78,7 +78,7 @@ export default {
 
 
 
-                <button class="btn btn-primary mb-3" type="submit">Aggiungi</button>
+                <button class="btn btn-light mb-3" type="submit">Aggiungi</button>
             </form>
 
        

@@ -1,7 +1,7 @@
 import { db } from '../../../src/firebase';
 import { collection, query, orderBy, limit, getDocs, startAfter } from 'firebase/firestore';
 
-export const getDays = async (lastVisible, pageSize = 4) => {
+export const getDays = async (lastVisible, pageSize = 8) => {
   try {
     // Crea la query per recuperare i giorni ordinati per 'creazione'
     const daysQuery = query(

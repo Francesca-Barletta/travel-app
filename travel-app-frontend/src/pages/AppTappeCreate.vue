@@ -1,7 +1,6 @@
 <script>
-import {getAuth} from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { createStop, getDaysForStops } from '../services/stops/create';
-
 
 export default {
   data() {
@@ -10,10 +9,10 @@ export default {
         paese: '',
         attivita: '',
         descrizione: '',
-        day_id:'',
+        day_id: '',
         cibi: []
       },
-      days : [],
+      days: [],
       loadingDays: false,
     };
   },
@@ -25,13 +24,13 @@ export default {
       this.$router.push({ name: 'login' });
       return;
     }
+
     this.loadingDays = true;
     try {
       this.days = await getDaysForStops();
     } catch (error) {
-      console.error('Error fetching days: ', error);
+      console.error('Errore durante il recupero dei giorni:', error);
     } finally {
-
       this.loadingDays = false;
     }
   },
@@ -39,20 +38,16 @@ export default {
     async addStop() {
       try {
         await createStop(this.newStop);
-        // Puoi aggiungere un messaggio di successo o redirigere l'utente
-        alert('tappa aggiunto con successo!');
-        // Resetta il modulo se necessario
+        alert('Tappa aggiunta con successo!');
         this.newStop = {
-            paese: '',
-            attivita: '',
-            descrizione: '',
-            day_id:'',
-            cibi: [],
-          // Resetta altri campi se necessario
+          paese: '',
+          attivita: '',
+          descrizione: '',
+          day_id: '',
+          cibi: [],
         };
       } catch (error) {
-        console.error('Error adding stop: ', error);
-        // Mostra un messaggio di errore se necessario
+        console.error('Errore durante l\'aggiunta della tappa:', error);
       }
     }
   }
@@ -81,7 +76,7 @@ export default {
                     <textarea class="form-control" v-model="newStop.descrizione" id="descrizione" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
-                <label for="day_id" class="form-label">Seleziona Giorno</label>
+                <label for="day_id" class="form-label text-white">Seleziona Giorno</label>
                 <select class="form-control" v-model="newStop.day_id">
                     <option v-for="day in days" :key="day.id" :value="day.id">
                         {{ day.titolo }}
@@ -90,18 +85,16 @@ export default {
             </div>
 
 
-                <button class="btn btn-primary mb-3" type="submit">Aggiungi</button>
+                <button class="btn btn-light mb-3" type="submit">Aggiungi</button>
             </form>
 
        
         </div>
 
-            <div class="mb-3">
+            <div class="mb-3 d-flex justify-content-between">
 
                 <RouterLink class="btn btn-primary" :to="{ name: 'home' }">Torna alla home</RouterLink>
-            </div>
-
-            <div>
+         
 
                 <RouterLink class="btn btn-primary" :to="{ name: 'tappe' }">torna alla lista delle tappe</RouterLink>
             </div>

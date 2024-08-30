@@ -85,7 +85,7 @@ export default {
                     <textarea class="form-control" v-model="newStop.descrizione" id="descrizione" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="day_id" class="form-label">Seleziona Giorno</label>
+                    <label for="day_id" class="form-label text-white">Seleziona Giorno</label>
                     <select class="form-control" v-model="newStop.day_id">
                         <option v-for="day in days" :key="day.id" :value="day.id">
                             {{ day.titolo }}
@@ -100,13 +100,10 @@ export default {
 
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 d-flex justify-content-between">
 
             <RouterLink class="btn btn-primary" :to="{ name: 'home' }">Torna alla home</RouterLink>
-        </div>
-
-        <div>
-
+       
             <RouterLink class="btn btn-primary" :to="{name: 'dettagli-tappa', params: { slug: this.slug }}">torna al
                 dettaglio tappa</RouterLink>
         </div>

@@ -100,7 +100,7 @@ export default {
             </div>
           
 
-                <button class="btn btn-primary mb-3" type="submit">Modifica</button>
+                <button class="btn btn-light mb-3" type="submit">Modifica</button>
             </form>
 
        

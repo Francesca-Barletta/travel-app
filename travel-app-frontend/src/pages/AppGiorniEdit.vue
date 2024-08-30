@@ -52,46 +52,43 @@ export default {
             
             <form @submit.prevent="handleUpdateDay">
 
-                <div>
+                <div class="mb-3">
                     <label for="titolo" class="form-label text-white">Inserisci nome del giorno</label>
                     <input class="form-control" v-model="newDay.titolo" type="text" id="titolo" 
                         aria-label="giorno uno">
                 </div>
-                <div>
+                <div class="mb-3">
                     <label for="regione" class="form-label text-white">Inserisci regione</label>
                     <input class="form-control" v-model="newDay.regione" type="text" id="regione" 
                         aria-label="regione">
                 </div>
-                <div>
+                <div class="mb-3">
                     <label for="alloggio" class="form-label text-white">Inserisci alloggio</label>
                     <input class="form-control" v-model="newDay.alloggio" type="text" id="alloggio" 
                         aria-label="alloggio">
                 </div>
-                <div>
+                <div class="mb-3">
                     <label for="citta_alloggio" class="form-label text-white">Inserisci la città dell'alloggio</label>
                     <input class="form-control" v-model="newDay.citta_alloggio" type="text" id="citta_alloggio" 
                         aria-label="citta_alloggio">
                 </div>
-                <div>
+                <div class="mb-3">
                     <label for="data" class="form-label text-white">Inserisci la data</label>
                     <input class="form-control" v-model="newDay.data" type="text" id="data" 
                         aria-label="data">
                 </div>
              
 
-                <button class="btn btn-primary my-3" type="submit">Modifica</button>
+                <button class="btn btn-light my-3" type="submit">Modifica</button>
             </form>
 
        
         </div>
 
-            <div class="mb-3">
+            <div class="mb-3 d-flex justify-content-between">
 
                 <RouterLink class="btn btn-primary" :to="{ name: 'home' }">Torna alla home</RouterLink>
-            </div>
-
-            <div>
-
+         
                 <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">torna alla lista dei giorni</RouterLink>
             </div>
 

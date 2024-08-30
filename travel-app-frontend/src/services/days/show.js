@@ -15,23 +15,26 @@ export const getDayBySlug = async (slug) => {
     const dayDoc = daySnapshot.docs[0];
     const dayData = { id: dayDoc.id, ...dayDoc.data() };
 
-    // Recupera le tappe per il giorno
-    const stopsQuery = query(collection(db, 'stops'), where('id', 'in', dayData.tappe));
-    const stopsSnapshot = await getDocs(stopsQuery);
+    // Controlla se ci sono tappe e recupera solo se l'array non è vuoto
+    let stops = [];
+    if (dayData.tappe && dayData.tappe.length > 0) {
+      const stopsQuery = query(collection(db, 'stops'), where('id', 'in', dayData.tappe));
+      const stopsSnapshot = await getDocs(stopsQuery);
 
-    const stops = await Promise.all(stopsSnapshot.docs.map(async (stopDoc) => {
-      const stopData = { id: stopDoc.id, ...stopDoc.data() };
+      stops = await Promise.all(stopsSnapshot.docs.map(async (stopDoc) => {
+        const stopData = { id: stopDoc.id, ...stopDoc.data() };
 
-      // Recupera i cibi per ogni tappa
-      const foodsQuery = query(collection(db, 'foods'), where('stop_id', '==', stopData.id));
-      const foodsSnapshot = await getDocs(foodsQuery);
-      const foods = foodsSnapshot.docs.map(foodDoc => ({ id: foodDoc.id, ...foodDoc.data() }));
+        // Recupera i cibi per ogni tappa
+        const foodsQuery = query(collection(db, 'foods'), where('stop_id', '==', stopData.id));
+        const foodsSnapshot = await getDocs(foodsQuery);
+        const foods = foodsSnapshot.docs.map(foodDoc => ({ id: foodDoc.id, ...foodDoc.data() }));
 
-      return {
-        ...stopData,
-        foods
-      };
-    }));
+        return {
+          ...stopData,
+          foods
+        };
+      }));
+    }
 
     return {
       ...dayData,

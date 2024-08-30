@@ -29,21 +29,21 @@ import {getAuth, signOut} from 'firebase/auth';
 </script>
 
 <template>
-    <nav class=" bg-primary d-flex justify-content-between">
+    <nav class=" bg-primary d-flex justify-content-between align-items-center g-3">
 
-        
-        <RouterLink class="text-white m-3" to="/"><h3 class="text-white">Le mie vacanze</h3></RouterLink>
-    <div class="d-flex ">
-        <RouterLink class="text-white m-3" to="/giorni">giorni</RouterLink>
+
+        <RouterLink class="text-white m-3 text-decoration-none" to="/">
+            <h3 class="text-white">Le mie vacanze</h3>
+        </RouterLink>
+        <div class="d-flex gap-2 me-3">
+            <RouterLink class="btn btn-light" to="/giorni">giorni</RouterLink>
+
+            <RouterLink class="btn btn-light" to="/tappe">tappe</RouterLink>
       
-        <RouterLink class="text-white m-3" to="/tappe">tappe</RouterLink>
-    </div>
-    <div v-if="user">
-        <button @click="logout">Logout</button>
-    </div>
-    <div v-else>
-        <RouterLink class="text-white m-3" to="/login">Login</RouterLink>
-    </div>
+            <button v-if="user" @click="logout" class="btn btn-danger">Logout</button>
+
+            <RouterLink v-else class="btn btn-success" to="/login">Login</RouterLink>
+        </div>
     </nav>
 </template>
 
