@@ -81,49 +81,71 @@ export default {
         <div class="card p-4">
           <h4 class="fw-bold">{{ day.titolo }}: {{ day.regione }}</h4>
           <hr>
-          <p><span class="fw-bold">Alloggio: </span>{{ day.alloggio }}</p>
-          <p><span class="fw-bold">Località alloggio: </span>{{ day.citta_alloggio }}</p>
-          <hr>
-          <ul class="list-unstyled">
-            <li v-for="stop in day.stops" :key="stop.id">
-              <p>{{ console.log(stop.paese) }}</p>
-              <div class="d-flex justify-content-between align-items-center p-3">
-                <h4 class="text-center">Tappa a {{ stop.paese }}</h4>
-                <button @click="deleteStop(stop.id)" :disabled="loading" class="btn btn-danger">
-      {{ loading ? 'Elimino...' : 'Elimina tappa' }}
-    </button>
-              </div>
-              <hr>
-              <p><span class="fw-bold">Attività: </span>{{ stop.attivita }}</p>
-              <p><span class="fw-bold">Descrizione: </span>{{ stop.descrizione }}</p>
-              <hr>
-              <h5  class="fw-bold">Il cibo della tappa:</h5>
-              <ul  class="list-unstyled">
-                <li v-for="food in stop.foods" :key="food.id" class="text-center">
-                  <hr>
-                  <p><span class="fw-bold">Piatto: </span>{{ food.piatto }}</p>
-                  <p><span class="fw-bold">Locale: </span>{{ food.locale }}</p>
-                  <p><span class="fw-bold">Prezzo: </span>{{ food.prezzo }} €</p>
-                  <p><span class="fw-bold">Voto: </span>{{ food.voto }} / 10</p>
-                </li>
-              </ul>
- 
-              <hr>
-            </li>
-          </ul>
-          <div  class="d-flex justify-content-between align-items-center p-3">
-            <button @click="deleteDay" :disabled="loading" class="btn btn-danger">
-                {{ loading ? 'Elimino...' : 'Elimina giorno' }}
-            </button>
-            <RouterLink class="btn btn-primary" :to="{ name: 'modifica-giorno', params: { slug: day.slug } }">modifica il
-              giorno</RouterLink>
+          
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <!-- Slide items -->
+      <div v-for="(url, index) in day.photoUrls" :key="index"
+           :class="['carousel-item', { active: index === 0 }]">
+        <img class="d-block w-100" :src="url" :alt="'Slide ' + (index + 1)">
+      </div>
+    </div>
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div>
+            <p><span class="fw-bold">Alloggio: </span>{{ day.alloggio }}</p>
+            <p><span class="fw-bold">Località alloggio: </span>{{ day.citta_alloggio }}</p>
+            <hr>
+            <ul class="list-unstyled">
+              <li v-for="stop in day.stops" :key="stop.id">
+                <p>{{ console.log(stop.paese) }}</p>
+                <div class="d-flex justify-content-between align-items-center p-3">
+                  <h4 class="text-center">Tappa a {{ stop.paese }}</h4>
+                  <button @click="deleteStop(stop.id)" :disabled="loading" class="btn btn-danger">
+                    {{ loading ? 'Elimino...' : 'Elimina tappa' }}
+                  </button>
+                </div>
+                <hr>
+                <p><span class="fw-bold">Attività: </span>{{ stop.attivita }}</p>
+                <p><span class="fw-bold">Descrizione: </span>{{ stop.descrizione }}</p>
+                <hr>
+                <h5 class="fw-bold">Il cibo della tappa:</h5>
+                <ul class="list-unstyled">
+                  <li v-for="food in stop.foods" :key="food.id" class="text-center">
+                    <hr>
+                    <p><span class="fw-bold">Piatto: </span>{{ food.piatto }}</p>
+                    <p><span class="fw-bold">Locale: </span>{{ food.locale }}</p>
+                    <p><span class="fw-bold">Prezzo: </span>{{ food.prezzo }} €</p>
+                    <p><span class="fw-bold">Voto: </span>{{ food.voto }} / 10</p>
 
+                  </li>
+                </ul>
+
+                <hr>
+              </li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center p-3">
+              <button @click="deleteDay" :disabled="loading" class="btn btn-danger">
+                {{ loading ? 'Elimino...' : 'Elimina giorno' }}
+              </button>
+              <RouterLink class="btn btn-primary" :to="{ name: 'modifica-giorno', params: { slug: day.slug } }">modifica
+                il
+                giorno</RouterLink>
+
+            </div>
           </div>
         </div>
       </div>
+
     </div>
-   
-  </div>
+ 
 </template>
 
 <style lang="scss" scoped></style>

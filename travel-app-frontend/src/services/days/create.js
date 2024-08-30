@@ -15,15 +15,12 @@ export const createDay = async (dayData) => {
       slug,
       creazione: currentTimestamp,
       tappe: dayData.tappe || [],
-     
+      photoUrls: dayData.photoUrls || [], // Cambia da photoUrl a photoUrls
     };
-
-    // Aggiunge lo slug ai dati del giorno
-    // const dayWithSlug = { ...dayData, slug };
 
     // Aggiunge il documento alla raccolta 'days'
     const docRef = doc(collection(db, 'days'), dayId);
-   await setDoc(docRef, dayDoc);
+    await setDoc(docRef, dayDoc);
     console.log('Document written with ID: ', dayId);
     return dayId;
   } catch (e) {
