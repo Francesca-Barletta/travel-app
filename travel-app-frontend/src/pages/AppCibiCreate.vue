@@ -1,6 +1,8 @@
 
 <script>
 import { createFood, getStopBySlug } from '../services/foods/create';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
 
 export default {
   props: ['slug'],
@@ -12,8 +14,10 @@ export default {
         descrizione: '',
         prezzo: 0,
         voto: 0,
-        stop_id: ''
+        stop_id: '',
+        photoUrls: [],
       },
+      photoFiles: [],
       loading: false,
     };
   },
@@ -33,16 +37,44 @@ export default {
     }
   },
   methods: {
-    async addFood() {
-      try {
-        await createFood(this.newFood);
-        alert('Cibo aggiunto con successo!');
-        this.$router.push({ name: 'dettagli-tappa', params: { slug: this.slug } });
-      } catch (error) {
-        console.error('Error adding food: ', error);
-      }
-    },
+  onFileChange(e) {
+    this.photoFiles = Array.from(e.target.files);
+    console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+  },
+  createObjectURL(file) {
+    return URL.createObjectURL(file); // Questa funzione crea un URL per l'anteprima dell'immagine
+  },
+  async uploadPhotos() {
+  console.log('Uploading photos:', this.photoFiles);
+  const photoUrls = [];
+
+  for (const [index, file] of this.photoFiles.entries()) {
+    try {
+      // Usa solo il nome del locale per il percorso
+      const storageRef = ref(storage, `foods/${this.newFood.locale}/${file.name || 'image'}`);
+      
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      photoUrls.push(downloadURL);
+    } catch (error) {
+      console.error('Error uploading file:', file, error);
+    }
   }
+
+  return photoUrls;
+},
+  async addFood() {
+    try {
+      this.newFood.photoUrls = await this.uploadPhotos(); // Assicurati che photoUrls sia popolato
+      await createFood(this.newFood);
+      alert('Cibo aggiunto con successo!');
+      this.$router.push({ name: 'dettagli-tappa', params: { slug: this.slug } });
+    } catch (error) {
+      console.error('Error adding food: ', error);
+    }
+  },
+},
+
 };
 </script>
 
@@ -75,6 +107,19 @@ export default {
                 <label for="voto" class="form-label text-white">Inserisci voto</label>
                 <input class="form-control" type="number" v-model="newFood.voto" id="voto" >
             </div>
+            <div class="mb-3">
+          <label for="photos" class="form-label text-white">Carica foto</label>
+          <input class="form-control" type="file" id="photos" @change="onFileChange" multiple>
+        </div>
+        <div v-if="photoFiles.length > 0">
+          <h3 class="text-white">Anteprima delle immagini:</h3>
+          <div class="d-flex flex-wrap">
+            <div v-for="(file, index) in photoFiles" :key="index" class="p-2">
+              <img :src="createObjectURL(file)" alt="Preview" class="img-thumbnail" style="max-width: 100px;">
+            </div>
+          </div>
+        </div>
+
 
 
 

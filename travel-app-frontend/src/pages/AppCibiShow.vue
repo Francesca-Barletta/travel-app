@@ -43,6 +43,25 @@ export default {
             <div v-if="food" class="col">
                 <div class="card p-2">
                     <h4 class="fw-bold">{{ food.locale }}</h4>
+                     
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <!-- Slide items -->
+      <div v-for="(url, index) in food.photoUrls" :key="index"
+           :class="['carousel-item', { active: index === 0 }]">
+        <img class="d-block w-100" :src="url" :alt="'Slide ' + (index + 1)">
+      </div>
+    </div>
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div>
                     <p>{{ food.piatto }}</p>
                     <p>{{ food.descrizione }}</p>
                     <p>{{ food.prezzo}}</p>

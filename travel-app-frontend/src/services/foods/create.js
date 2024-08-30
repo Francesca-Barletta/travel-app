@@ -16,6 +16,7 @@ export const createFood = async (foodData) => {
       ...foodData,
       id: foodId,
       slug,
+      photoUrls: foodData.photoUrls || [], // Cambia da photoUrl a photoUrls
     };
 
     // Riferimento al documento del cibo nella collection 'foods'
@@ -50,3 +51,4 @@ export const getStopBySlug = async (slug) => {
     throw e;
   }
 };
+
