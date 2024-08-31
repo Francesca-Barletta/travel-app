@@ -49,14 +49,37 @@ export default {
 </script>
 <template>
   <div class="container my-5 flex-grow-1">
-
-    <h1 class="text-primary text-center p-3">Qui la tappa nel dettaglio</h1>
+    <div  class="d-flex justify-content-center align-items-center p-3">
+      <h1 class="text-primary text-center p-3">Qui la tappa nel dettaglio</h1>
+      
+      <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">aggiungi tappa</RouterLink>
+    </div>
     <div class="row">
       <div v-if="stop" class="col-8 m-auto">
         <div class="card p-4 ">
-          <h4 class="fw-bold">La tappa di {{ stop.paese }}:</h4>
+          <h4 class="fw-bold text-center">La tappa di {{ stop.paese }}:</h4>
           <hr>
-          <p class="text-center"><span class="fw-bold">Attività: </span>{{ stop.attivita }}</p>
+          <!-- inizio carosello -->
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <!-- Slide items -->
+              <div v-for="(url, index) in stop.photoUrls" :key="index"
+                :class="['carousel-item', { active: index === 0 }]">
+                <img class="d-block w-100" :src="url" :alt="'Slide ' + (index + 1)">
+              </div>
+            </div>
+            <!-- Controls -->
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>
+           <!-- fine carosello -->
+          <p class="text-center mt-4"><span class="fw-bold">Attività: </span>{{ stop.attivita }}</p>
           <p class="text-center"><span class="fw-bold">Descrizione: </span>{{ stop.descrizione }}</p>
           
           <div v-if="stop.day">
@@ -95,7 +118,6 @@ export default {
     </div>
     <div class="d-flex justify-content-center">
 
-      <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">aggiungi tappa</RouterLink>
       <RouterLink class="btn btn-primary m-2" :to="{ name: 'tappe' }">torna alla lista delle tappe</RouterLink>
     </div>
 

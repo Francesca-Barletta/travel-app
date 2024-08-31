@@ -16,7 +16,8 @@ export const updateFood = async (slug, foodData) => {
                 descrizione: foodData.descrizione,
                 prezzo: foodData.prezzo,
                 voto: foodData.voto,
-                slug: slugify(foodData.locale, { lower: true, strict: true })
+                slug: slugify(foodData.locale, { lower: true, strict: true }),
+                photoUrls: foodData.photoUrls || [],
             });
             console.log('Document updated successfully');
         } else {

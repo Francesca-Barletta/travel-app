@@ -2,6 +2,9 @@
 import { getAuth } from 'firebase/auth';
 import { updateFood, getFoodBySlug } from '../services/foods/edit';
 import slugify from 'slugify'; 
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
+
 export default {
     props: ['slug'],
     data() {
@@ -11,9 +14,11 @@ export default {
                 piatto: '',
                 descrizione: '',
                 prezzo: 0,
-                voto: 0
+                voto: 0,
+                photoUrls: [],
             },
-            oldSlug: this.slug
+            oldSlug: this.slug,
+            photoFiles: [],
         };
     },
     async created() {
@@ -32,7 +37,8 @@ export default {
                     piatto: foodData.piatto,
                     descrizione: foodData.descrizione,
                     prezzo: foodData.prezzo,
-                    voto: foodData.voto
+                    voto: foodData.voto,
+                    photoUrls: foodData.photoUrls || [],
                 };
             } else {
                 alert('Cibo non trovato!');
@@ -47,6 +53,11 @@ export default {
     methods: {
         async handleUpdateFood() {
             try {
+                if (!Array.isArray(this.newFood.photoUrls)) {
+                this.newFood.photoUrls = [];
+                }
+                const newPhotoUrls = await this.uploadPhotos();
+                this.newFood.photoUrls = [...this.newFood.photoUrls, ...newPhotoUrls];
                 // Aggiungi un campo per gestire il nuovo slug
                 const newSlug = slugify(this.newFood.locale, { lower: true, strict: true });
 
@@ -65,8 +76,33 @@ export default {
                 console.error('Error updating food: ', error);
                 alert('Errore nell\'aggiornamento del cibo.');
             }
-        }
+        },
+        onFileChange(e) {
+      this.photoFiles = Array.from(e.target.files);
+      console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+    },
+    async uploadPhotos() {
+      console.log('Uploading photos:', this.photoFiles); // Debug: verifica i file prima dell'upload
+      const photoUrls = [];
+      for (const file of this.photoFiles) {
+        const storageRef = ref(storage, `foods/${this.newFood.paese}/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        photoUrls.push(downloadURL);
+      }
+      return photoUrls;
+    },
+    removePhoto(index) {
+            this.newFood.photoUrls.splice(index, 1); // Rimuove la foto dall'array
+        },
+    },
+    computed: {
+    // Computed property to access URL.createObjectURL
+    createObjectURL() {
+      return (file) => URL.createObjectURL(file);
     }
+  }
+    
 }
 </script>
 <template>
@@ -98,6 +134,35 @@ export default {
                 <label for="voto" class="form-label text-white">Inserisci voto</label>
                 <input class="form-control" type="number" v-model="newFood.voto" id="voto" >
             </div>
+            <!-- Visualizzazione delle foto esistenti con opzione di rimozione -->
+            <div v-if="Array.isArray(newFood.photoUrls) && newFood.photoUrls.length > 0" class="mb-3">
+                        <h3 class="text-white">Foto esistenti:</h3>
+                        <div class="d-flex flex-wrap">
+                            <div v-for="(url, index) in newFood.photoUrls" :key="index" class="p-2 position-relative">
+                                <img :src="url" alt="Foto esistente" class="img-thumbnail" style="width: 100px; height: 60px;">
+                                <button @click="removePhoto(index)" type="button" class="btn btn-danger btn-sm position-absolute" style="top: 0; right: 0;">
+                                    &times;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Caricamento nuove foto -->
+                    <div class="mb-3">
+                        <label for="photos" class="form-label text-white">Carica nuove foto</label>
+                        <input class="form-control" type="file" id="photos" @change="onFileChange" multiple>
+                    </div>
+
+                    <!-- Anteprima delle nuove foto -->
+                    <div v-if="photoFiles.length > 0">
+                        <h3 class="text-white">Anteprima delle nuove immagini:</h3>
+                        <div class="d-flex flex-wrap">
+                            <div v-for="(file, index) in photoFiles" :key="index" class="p-2">
+                                <img :src="createObjectURL(file)" alt="Preview" class="img-thumbnail" style="width: 100px; height: 60px;">
+                            </div>
+                        </div>
+                    </div>
+
           
 
                 <button class="btn btn-light mb-3" type="submit">Modifica</button>

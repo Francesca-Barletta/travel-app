@@ -1,6 +1,6 @@
 <script>
 
-import { getFoodWithStopBySlug } from '../services/foods/show'; 
+import { getFoodWithStopBySlug } from '../services/foods/show';
 import { getAuth } from 'firebase/auth';
 
 export default {
@@ -36,48 +36,49 @@ export default {
 }
 </script>
 <template>
-    <div class="container my-5 flex-grow-1">
+  <div class="container my-5 flex-grow-1">
 
-        <h1 class="text-primary">Qui i dettagli del cibo</h1>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-            <div v-if="food" class="col">
-                <div class="card p-2">
-                    <h4 class="fw-bold">{{ food.locale }}</h4>
-                     
+    <h1 class="text-primary text-center p-3">Qui i dettagli del cibo</h1>
+    <div class="row">
+      <div v-if="food" class="col-8 m-auto">
+        <div class="card p-2">
+          <h4 class="text-center p-3"><span class="fw-boldp-3">Locale:</span>{{ food.locale }}</h4>
+          <!-- inizio carosello -->
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <!-- Slide items -->
-      <div v-for="(url, index) in food.photoUrls" :key="index"
-           :class="['carousel-item', { active: index === 0 }]">
-        <img class="d-block w-100" :src="url" :alt="'Slide ' + (index + 1)">
+            <div class="carousel-inner">
+              <!-- Slide items -->
+              <div v-for="(url, index) in food.photoUrls" :key="index"
+                :class="['carousel-item', { active: index === 0 }]">
+                <img class="d-block w-100" :src="url" :alt="'Slide ' + (index + 1)">
+              </div>
+            </div>
+            <!-- Controls -->
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>
+           <!-- fine carosello -->
+          <p class="text-center mt-3"><span class="fw-bold">Piatto: </span><br>{{ food.piatto }}</p>
+          <p class="text-center"><span class="fw-bold">Descrizione: </span><br>{{ food.descrizione }}</p>
+          <p class="text-center"><span class="fw-bold">Prezzo: </span><br>{{ food.prezzo }} €</p>
+          <p class="text-center"><span class="fw-bold">Voto: </span><br>{{ food.voto }}/10</p>
+          <div v-if="user" class="container d-flex justify-content-between align-items-center p-3">
+            <RouterLink class="btn btn-primary" :to="{ name: 'modifica-cibo', params: { slug: food.slug } }">modifica il cibo
+            </RouterLink>
+            <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa', params: { slug: stop.slug } }">torna alla tappa
+            </RouterLink>
+        </div>
       </div>
     </div>
-    <!-- Controls -->
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </a>
-  </div>
-                    <p>{{ food.piatto }}</p>
-                    <p>{{ food.descrizione }}</p>
-                    <p>{{ food.prezzo}}</p>
-                    <p>{{ food.voto }}</p>
-                </div>
-            </div>
-        </div>
 
-        <div v-if="user" class="container">
-          <RouterLink class="btn btn-primary" :to="{ name: 'modifica-cibo', params: {slug: food.slug} }">modifica il cibo</RouterLink>
-          <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa', params: {slug: stop.slug} }">torna alla tappa</RouterLink>
 
-          
-        </div>
+
     </div>
+  </div>
 </template>
 <style lang="scss" scoped></style>
-
-

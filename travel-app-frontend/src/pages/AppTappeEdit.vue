@@ -2,6 +2,8 @@
 import { getAuth } from 'firebase/auth';
 import { updateStop, getDaysForStops } from '../services/stops/edit';
 import { getStopBySlug } from '../services/stops/show';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
 
 export default {
   props: ['slug'],
@@ -13,8 +15,10 @@ export default {
         descrizione: '',
         day_id: '',
         cibi: [],
+        photoUrls: [],
       },
       days: [],
+      photoFiles: [],
       loadingDays: false,
       loadingStop: true,
     };
@@ -37,7 +41,10 @@ export default {
       // Carica i dettagli della tappa usando lo slug
       const stopData = await getStopBySlug(this.slug);
       if (stopData) {
-        this.newStop = stopData;
+        this.newStop = {
+          ...stopData,
+          photoUrls: stopData.photoUrls || [],
+        };
       } else {
         console.error('Tappa non trovata');
         this.$router.push({ name: 'tappe' }); // Reindirizza se la tappa non è trovata
@@ -52,12 +59,42 @@ export default {
   methods: {
     async handleUpdateStop() {
       try {
+        if (!Array.isArray(this.newStop.photoUrls)) {
+                this.newStop.photoUrls = [];
+                }
+                const newPhotoUrls = await this.uploadPhotos();
+                this.newStop.photoUrls = [...this.newStop.photoUrls, ...newPhotoUrls];
+
         await updateStop(this.slug, this.newStop);
         alert('Tappa modificata con successo!');
         this.$router.push({ name: 'dettagli-tappa', params: { slug: this.slug } });
       } catch (error) {
         console.error('Errore durante la modifica della tappa:', error);
       }
+    },
+    onFileChange(e) {
+      this.photoFiles = Array.from(e.target.files);
+      console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+    },
+    async uploadPhotos() {
+      console.log('Uploading photos:', this.photoFiles); // Debug: verifica i file prima dell'upload
+      const photoUrls = [];
+      for (const file of this.photoFiles) {
+        const storageRef = ref(storage, `stops/${this.newStop.paese}/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        photoUrls.push(downloadURL);
+      }
+      return photoUrls;
+    },
+    removePhoto(index) {
+            this.newStop.photoUrls.splice(index, 1); // Rimuove la foto dall'array
+        },
+    },
+    computed: {
+    // Computed property to access URL.createObjectURL
+    createObjectURL() {
+      return (file) => URL.createObjectURL(file);
     }
   }
 }
@@ -92,9 +129,37 @@ export default {
                         </option>
                     </select>
                 </div>
+                 <!-- Visualizzazione delle foto esistenti con opzione di rimozione -->
+                 <div v-if="Array.isArray(newStop.photoUrls) && newStop.photoUrls.length > 0"  class="mb-3">
+                        <h3 class="text-white">Foto esistenti:</h3>
+                        <div class="d-flex flex-wrap">
+                            <div v-for="(url, index) in newStop.photoUrls" :key="index" class="p-2 position-relative">
+                                <img :src="url" alt="Foto esistente" class="img-thumbnail" style="width: 100px; height: 60px;">
+                                <button @click="removePhoto(index)" type="button" class="btn btn-danger btn-sm position-absolute" style="top: 0; right: 0;">
+                                    &times;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Caricamento nuove foto -->
+                    <div class="mb-3">
+                        <label for="photos" class="form-label text-white">Carica nuove foto</label>
+                        <input class="form-control" type="file" id="photos" @change="onFileChange" multiple>
+                    </div>
+
+                    <!-- Anteprima delle nuove foto -->
+                    <div v-if="photoFiles.length > 0">
+                        <h3 class="text-white">Anteprima delle nuove immagini:</h3>
+                        <div class="d-flex flex-wrap">
+                            <div v-for="(file, index) in photoFiles" :key="index" class="p-2">
+                                <img :src="createObjectURL(file)" alt="Preview" class="img-thumbnail" style="width: 100px; height: 60px;">
+                            </div>
+                        </div>
+                    </div>
 
 
-                <button class="btn btn-primary mb-3" type="submit">Modifica</button>
+                <button class="btn btn-light mb-3" type="submit">Modifica</button>
             </form>
 
 

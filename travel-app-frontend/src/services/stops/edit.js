@@ -1,6 +1,6 @@
 // src/services/stops/update.js
 import { db } from '../../../src/firebase';
-import { collection, doc, updateDoc, getDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, doc, updateDoc, getDoc, query, where, limit, orderBy, getDocs } from 'firebase/firestore';
 import slugify from 'slugify';
 
 // Funzione per aggiornare una tappa con l'ID del nuovo cibo
@@ -50,7 +50,8 @@ export const updateStop = async (slug, stopData) => {
         descrizione: stopData.descrizione,
         slug: slugify(stopData.paese, { lower: true }),
         day_id: newDayId, // Aggiorna anche l'associazione con il giorno
-        cibi: stopData.cibi || [] // Aggiorna anche l'array cibi
+        cibi: stopData.cibi || [],
+        photoUrls: stopData.photoUrls || [], // Aggiorna anche l'array cibi
       });
       console.log('Document updated successfully');
 

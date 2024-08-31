@@ -72,9 +72,9 @@ export default {
 <template>
 
   <div class="container my-5 flex-grow-1">
-    <div class="d-flex justify-content-between align-items-center p-3">
+    <div class="d-flex justify-content-center align-items-center gap-4 p-3">
       <h1 class="text-primary">Qui il giorno nel dettaglio</h1>
-      <RouterLink class="btn btn-primary mt-3" :to="{ name: 'giorni' }">Torna alla lista di giorni</RouterLink>
+      <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">Torna alla lista di giorni</RouterLink>
     </div>
     <div class="row">
       <div v-if="day" class="col-8 m-auto">
@@ -103,10 +103,10 @@ export default {
             <p><span class="fw-bold">Alloggio: </span>{{ day.alloggio }}</p>
             <p><span class="fw-bold">Località alloggio: </span>{{ day.citta_alloggio }}</p>
             <hr>
-            <ul class="list-unstyled">
-              <li v-for="stop in day.stops" :key="stop.id">
-                <p>{{ console.log(stop.paese) }}</p>
-                <div class="d-flex justify-content-between align-items-center p-3">
+            <ul class="list-unstyled  ">
+              <li v-for="stop in day.stops" :key="stop.id" class="bg-primary bg-gradient p-2 rounded m-2">
+               
+                <div class="d-flex justify-content-between align-items-center bg-light rounded p-3">
                   <h4 class="text-center">Tappa a {{ stop.paese }}</h4>
                   <button @click="deleteStop(stop.id)" :disabled="loading" class="btn btn-danger">
                     {{ loading ? 'Elimino...' : 'Elimina tappa' }}
@@ -115,10 +115,13 @@ export default {
                 <hr>
                 <p><span class="fw-bold">Attività: </span>{{ stop.attivita }}</p>
                 <p><span class="fw-bold">Descrizione: </span>{{ stop.descrizione }}</p>
-                <hr>
-                <h5 class="fw-bold">Il cibo della tappa:</h5>
+               
+             
                 <ul class="list-unstyled">
+                  
                   <li v-for="food in stop.foods" :key="food.id" class="text-center">
+                    <hr>
+                    <h5 class="fw-bold">Il cibo della tappa:</h5>
                     <hr>
                     <p><span class="fw-bold">Piatto: </span>{{ food.piatto }}</p>
                     <p><span class="fw-bold">Locale: </span>{{ food.locale }}</p>

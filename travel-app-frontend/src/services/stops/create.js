@@ -17,6 +17,7 @@ export const createStop = async (stopData) => {
       slug,
       creazione: currentTimestamp,
       cibi: stopData.cibi || [],
+      photoUrls: stopData.photoUrls || [],
     };
 
     // Aggiungi il documento alla raccolta 'stops'
