@@ -33,17 +33,17 @@ export default {
     <form @submit.prevent="login">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label text-light">Email:</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
+        <input type="email"  autocomplete="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
       </div>
       <div class="mb-3 position-relative">
         <label for="exampleInputPassword1" class="form-label text-light">Password:</label>
-        <input :type="passwordVisible ? 'text' : 'password'" class="form-control" id="exampleInputPassword1" v-model="password">
+        <input :type="passwordVisible ? 'text' : 'password'" class="form-control"   autocomplete="current-password"  id="exampleInputPassword1" v-model="password">
         <!-- Icona per mostrare/nascondere la password -->
         <span @click="togglePasswordVisibility" class="position-absolute" style="cursor: pointer;">
           <i :class="passwordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'" style="font-size: 1.2rem;"></i>
         </span>
       </div>
-      <button type="submit" class="btn btn-light">Submit</button>
+      <button type="submit" class="btn btn-light">Accedi</button>
       <p v-if="error">{{ error }}</p>
     </form>
   </div>
