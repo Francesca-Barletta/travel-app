@@ -37,8 +37,11 @@ export default {
 </script>
 <template>
   <div class="container my-5 flex-grow-1">
-
+    <div  class="container d-flex justify-content-center align-items-center p-3">
     <h1 class="text-primary text-center p-3">Qui i dettagli del cibo</h1>
+    <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa', params: { slug: stop.slug } }">torna alla tappa
+    </RouterLink>
+    </div>
     <div class="row">
       <div v-if="food" class="col-8 m-auto">
         <div class="card p-2">
@@ -67,11 +70,10 @@ export default {
           <p class="text-center"><span class="fw-bold">Descrizione: </span><br>{{ food.descrizione }}</p>
           <p class="text-center"><span class="fw-bold">Prezzo: </span><br>{{ food.prezzo }} €</p>
           <p class="text-center"><span class="fw-bold">Voto: </span><br>{{ food.voto }}/10</p>
-          <div v-if="user" class="container d-flex justify-content-between align-items-center p-3">
-            <RouterLink class="btn btn-primary" :to="{ name: 'modifica-cibo', params: { slug: food.slug } }">modifica il cibo
+          <div v-if="user" class="container d-flex justify-content-center align-items-center p-3">
+            <RouterLink  class="btn btn-primary" :to="{ name: 'modifica-cibo', params: { slug: food.slug } }">modifica il cibo
             </RouterLink>
-            <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa', params: { slug: stop.slug } }">torna alla tappa
-            </RouterLink>
+           
         </div>
       </div>
     </div>

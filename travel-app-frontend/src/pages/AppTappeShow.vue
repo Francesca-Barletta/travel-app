@@ -99,7 +99,7 @@ export default {
                 <p><span class="fw-bold">Voto: </span>{{ food.voto }} / 10</p>
                 <RouterLink class="btn btn-primary m-2" :to="{ name: 'dettagli-cibo', params: { slug: food.slug } }">Vedi
                   il cibo nel dettaglio</RouterLink>
-                  <button @click="removeFood(food.id)" class="btn btn-danger m-2">Elimina Cibo</button>
+                  <button v-if="user" @click="removeFood(food.id)" class="btn btn-danger m-2">Elimina Cibo</button>
                 <hr>
               </li>
             </ul>

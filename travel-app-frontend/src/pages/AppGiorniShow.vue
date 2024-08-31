@@ -102,22 +102,23 @@ export default {
   </div>
             <p><span class="fw-bold">Alloggio: </span>{{ day.alloggio }}</p>
             <p><span class="fw-bold">Località alloggio: </span>{{ day.citta_alloggio }}</p>
-            <hr>
             <ul class="list-unstyled  ">
               <li v-for="stop in day.stops" :key="stop.id" class="bg-primary bg-gradient p-2 rounded m-2">
+           
                
-                <div class="d-flex justify-content-between align-items-center bg-light rounded p-3">
+                <div class="d-flex justify-content-between align-items-center bg-light rounded p-3 my-2">
                   <h4 class="text-center">Tappa a {{ stop.paese }}</h4>
-                  <button @click="deleteStop(stop.id)" :disabled="loading" class="btn btn-danger">
+                  <button v-if="user" @click="deleteStop(stop.id)" :disabled="loading" class="btn btn-danger">
                     {{ loading ? 'Elimino...' : 'Elimina tappa' }}
                   </button>
                 </div>
-                <hr>
+              
                 <p><span class="fw-bold">Attività: </span>{{ stop.attivita }}</p>
                 <p><span class="fw-bold">Descrizione: </span>{{ stop.descrizione }}</p>
                
              
                 <ul class="list-unstyled">
+                  
                   
                   <li v-for="food in stop.foods" :key="food.id" class="text-center">
                     <hr>
@@ -131,10 +132,11 @@ export default {
                   </li>
                 </ul>
 
-                <hr>
+               
               </li>
             </ul>
-            <div class="d-flex justify-content-between align-items-center p-3">
+            <div v-if="user" class="d-flex justify-content-between align-items-center p-3">
+              <hr>
               <button @click="deleteDay" :disabled="loading" class="btn btn-danger">
                 {{ loading ? 'Elimino...' : 'Elimina giorno' }}
               </button>
