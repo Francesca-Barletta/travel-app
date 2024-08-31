@@ -1,8 +1,12 @@
 <script>
 import { getDays } from '../services/days/index';
 import { getAuth } from 'firebase/auth';
+import AppMap from '../components/AppMap.vue';
 
 export default {
+  components: {
+    AppMap
+  },
   data() {
     return {
       days: [],
@@ -85,6 +89,10 @@ export default {
 
     <button v-if="!loading && hasMore" @click="loadMore" class="btn btn-primary mt-3">Carica più</button>
     <div v-if="loading" class="text-center">Caricamento...</div>
+  </div>
+  <div class="container mb-5">
+
+    <AppMap/>
   </div>
 </template>
 
