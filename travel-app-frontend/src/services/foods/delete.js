@@ -1,4 +1,4 @@
-// src/services/foods/delete.js
+
 import { db } from '../../../src/firebase';
 import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 

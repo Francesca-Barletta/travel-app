@@ -20,7 +20,7 @@ export const getFoodWithStopBySlug = async (slug) => {
     // Recupera la tappa associata utilizzando lo stop_id
     let stopData = null;
     if (foodData.stop_id) {
-      // Crea una query per recuperare lo stop con l'id uguale a stop_id
+      // query per recuperare lo stop con l'id uguale a stop_id
       const stopQuery = query(collection(db, 'stops'), where('id', '==', foodData.stop_id));
       const stopSnapshot = await getDocs(stopQuery);
 

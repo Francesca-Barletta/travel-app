@@ -19,7 +19,8 @@ export default {
   },
   async created() {
     try {
-      await this.loadDays(); // Carica i giorni iniziali
+      // Carica i giorni iniziali
+      await this.loadDays(); 
     } catch (error) {
       console.error('Error fetching days: ', error);
     }
@@ -67,20 +68,26 @@ export default {
 
 <template>
   <div class="container my-5 flex-grow-1">
-    <div class="d-flex justify-content-between align-items-center p-3">
-      <h1 class="text-primary">I giorni del viaggio</h1>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="w-100 my-5">
+            <h1 class="text-primary text-center bg-light mt-2 rounded p-4 shadow">I giorni del viaggio</h1>
+        </div>
+      
       <div v-if="user">
 
-        <RouterLink class="btn btn-primary mt-3 ms-3" :to="{ name: 'aggiungi-giorni' }">aggiungi giorni</RouterLink>
+        <RouterLink class="btn btn-primary mt-3 ms-3" :to="{ name: 'aggiungi-giorni' }">Aggiungi giorni</RouterLink>
       </div>
     </div>
     <div class="row row-gap-3 row-cols-1 row-cols-md-2 row-cols-lg-4">
       <div v-for="day in days" :key="day.id" class="col">
-        <div class="card h-100 p-2">
-          <h4 class="fw-bold">{{ day.titolo }}</h4>
-          <p>{{ day.regione }}</p>
-          <p>{{ day.alloggio }}</p>
-          <p>{{ day.citta_alloggio }}</p>
+        <div class="card h-100 py-3 px-2">
+          <h4 class="fw-bold pt-2">{{ day.titolo }}</h4>
+          <hr>
+          <img v-if="day.photoUrls.length > 0" class="d-block w-100" style="aspect-ratio: 16/9; object-fit: cover;" :src="day.photoUrls[0]" :alt="day.titolo">
+          <hr>
+          <p><span class="fw-bold">Regione: </span>{{ day.regione }}</p>
+          <p><span class="fw-bold">Alloggio: </span>{{ day.alloggio }}</p>
+          <p><span class="fw-bold">Città: </span>{{ day.citta_alloggio }}</p>
           <RouterLink class="btn btn-primary mt-auto" :to="{ name: 'dettagli-giorno', params: { slug: day.slug } }">Vedi
             giorno nel dettaglio</RouterLink>
         </div>

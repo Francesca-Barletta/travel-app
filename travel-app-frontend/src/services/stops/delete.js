@@ -3,7 +3,7 @@ import { doc, deleteDoc, getDoc, updateDoc, collection, getDocs, query, where } 
 
 export const deleteStopAndAssociates = async (stopId, dayId) => {
   try {
-    // Ottieni riferimento alla tappa da eliminare
+    // riferimento alla tappa da eliminare
     const stopRef = doc(db, 'stops', stopId);
     const stopDoc = await getDoc(stopRef);
 
@@ -13,7 +13,7 @@ export const deleteStopAndAssociates = async (stopId, dayId) => {
 
     const stopData = stopDoc.data();
 
-    // Rimuovi i cibi associati alla tappa
+    // Rimuove i cibi associati alla tappa
     if (stopData.cibi && stopData.cibi.length > 0) {
       const foodQuery = query(collection(db, 'foods'), where('id', 'in', stopData.cibi));
       const foodSnapshot = await getDocs(foodQuery);
@@ -25,7 +25,7 @@ export const deleteStopAndAssociates = async (stopId, dayId) => {
     // Elimina la tappa
     await deleteDoc(stopRef);
 
-    // Rimuovi l'ID della tappa dall'array tappe nel documento del giorno
+    // Rimuove l'ID della tappa dall'array tappe nel documento del giorno
     const dayRef = doc(db, 'days', dayId);
     const dayDoc = await getDoc(dayRef);
 

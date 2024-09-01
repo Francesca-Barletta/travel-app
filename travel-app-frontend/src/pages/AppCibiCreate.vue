@@ -27,7 +27,8 @@ export default {
         // Trova la tappa corrispondente allo slug passato
         const stop = await getStopBySlug(this.slug);
         if (stop) {
-          this.newFood.stop_id = stop.id;  // Associa lo stop_id
+           // Associa lo stop_id
+          this.newFood.stop_id = stop.id; 
         } else {
           throw new Error('Stop not found');
         }
@@ -39,10 +40,11 @@ export default {
   methods: {
   onFileChange(e) {
     this.photoFiles = Array.from(e.target.files);
-    console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+   
   },
   createObjectURL(file) {
-    return URL.createObjectURL(file); // Questa funzione crea un URL per l'anteprima dell'immagine
+    // Questa funzione crea un URL per l'anteprima dell'immagine
+    return URL.createObjectURL(file); 
   },
   async uploadPhotos() {
   console.log('Uploading photos:', this.photoFiles);
@@ -50,7 +52,7 @@ export default {
 
   for (const [index, file] of this.photoFiles.entries()) {
     try {
-      // Usa solo il nome del locale per il percorso
+      // Usa il nome del locale per il percorso
       const storageRef = ref(storage, `foods/${this.newFood.locale}/${file.name || 'image'}`);
       
       const snapshot = await uploadBytes(storageRef, file);
@@ -65,7 +67,7 @@ export default {
 },
   async addFood() {
     try {
-      this.newFood.photoUrls = await this.uploadPhotos(); // Assicurati che photoUrls sia popolato
+      this.newFood.photoUrls = await this.uploadPhotos();
       await createFood(this.newFood);
       alert('Cibo aggiunto con successo!');
       this.$router.push({ name: 'dettagli-tappa', params: { slug: this.slug } });
@@ -136,7 +138,7 @@ export default {
 
     <div>
 
-      <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa' }">torna al dettaglio della tappa</RouterLink>
+      <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa' }">Torna al dettaglio della tappa</RouterLink>
     </div>
 
   </div>

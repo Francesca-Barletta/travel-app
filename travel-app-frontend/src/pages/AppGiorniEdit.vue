@@ -1,7 +1,7 @@
 <script>
 import { getAuth } from 'firebase/auth';
 import { updateDay } from '../services/days/edit';
-import { getDayBySlug } from '../services/days/show'; // Importa la funzione per ottenere i dettagli
+import { getDayBySlug } from '../services/days/show'; 
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase';
 
@@ -57,10 +57,10 @@ export default {
         },
         onFileChange(e) {
       this.photoFiles = Array.from(e.target.files);
-      console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+      
     },
     async uploadPhotos() {
-      console.log('Uploading photos:', this.photoFiles); // Debug: verifica i file prima dell'upload
+    
       const photoUrls = [];
       for (const file of this.photoFiles) {
         const storageRef = ref(storage, `days/${this.newDay.titolo}/${file.name}`);
@@ -71,11 +71,12 @@ export default {
       return photoUrls;
     },
     removePhoto(index) {
-            this.newDay.photoUrls.splice(index, 1); // Rimuove la foto dall'array
+        // Rimuove la foto dall'array
+            this.newDay.photoUrls.splice(index, 1); 
         },
     },
     computed: {
-    // Computed property to access URL.createObjectURL
+   
     createObjectURL() {
       return (file) => URL.createObjectURL(file);
     }
@@ -86,7 +87,7 @@ export default {
     <div v-if="user">
         <div class="container my-5 ">
 
-            <h1 class="text-primary text-center">Moifica il giorno</h1>
+            <h1 class="text-primary text-center">Modifica il giorno</h1>
             <div class="container bg-primary shadow rounded my-5 p-3">
 
                 <form @submit.prevent="handleUpdateDay">
@@ -156,7 +157,7 @@ export default {
 
                 <RouterLink class="btn btn-primary" :to="{ name: 'home' }">Torna alla home</RouterLink>
 
-                <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">torna alla lista dei giorni</RouterLink>
+                <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">Torna alla lista dei giorni</RouterLink>
             </div>
 
         </div>

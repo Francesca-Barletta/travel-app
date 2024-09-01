@@ -3,7 +3,7 @@ import { collection, query, orderBy, limit, getDocs, startAfter } from 'firebase
 
 export const getDays = async (lastVisible, pageSize = 8) => {
   try {
-    // Crea la query per recuperare i giorni ordinati per 'creazione'
+    // query per recuperare i giorni ordinati per 'creazione'
     const daysQuery = query(
       collection(db, 'days'),
       orderBy('data', 'asc'),
@@ -15,7 +15,7 @@ export const getDays = async (lastVisible, pageSize = 8) => {
 
     const querySnapshot = await getDocs(finalQuery);
 
-    // Estrai i documenti e l'ultimo documento per la paginazione
+    // Estrae i documenti e l'ultimo documento per la paginazione
     const days = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     const newLastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 

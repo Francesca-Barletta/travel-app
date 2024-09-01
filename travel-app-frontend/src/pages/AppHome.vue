@@ -15,7 +15,7 @@ export default {
     },
     async created() {
         try {
-            await this.loadDays(); // Carica i giorni iniziali
+            await this.loadDays(); 
         } catch (error) {
             console.error('Error fetching days: ', error);
         }
@@ -36,8 +36,8 @@ export default {
                 this.days = [...this.days, ...result.days];
                 this.lastVisible = result.newLastVisible;
 
-                console.log('length', result.days.length);
-                console.log('massimo', this.pageSize);
+                // console.log('length', result.days.length);
+                // console.log('massimo', this.pageSize);
 
                 if (result.days.length < this.pageSize) {
                     this.hasMore = false;
@@ -61,13 +61,13 @@ export default {
 </script>
 
 <template>
-    <div class="container flex-grow-1 d-flex flex-column justify-content-center align-items-center">
-        <div class="d-flex justify-content-center align-items-center">
-            <h1 class="text-primary bg-light mt-2 rounded p-4 shadow">Il mio diario di viaggio</h1>
+    <div class="container flex-grow-1">
+        <div class=" my-5">
+            <h1 class="text-primary text-center bg-light mt-2 rounded p-4 shadow">Il mio diario di viaggio</h1>
         </div>
         <div class="container w-100 bg-light rounded p-3 mb-5">
 
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div id="carouselExampleControls" class="carousel slide shadow" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <!-- Slide items -->
                     <div v-for="(day, dayIndex) in days" :key="day.id">

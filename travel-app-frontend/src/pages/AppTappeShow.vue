@@ -1,7 +1,7 @@
 <script>
 import { getAuth } from 'firebase/auth';
 import { getStopBySlug } from '../services/stops/show';
-import { deleteFood } from '../services/foods/delete'; // Importa la funzione di eliminazione
+import { deleteFood } from '../services/foods/delete'; 
 
 export default {
   props: ['slug'],
@@ -17,7 +17,7 @@ export default {
       // Recupera la tappa con giorno e cibo
       console.log('Fetching stop with slug:', this.slug);
       this.stop = await getStopBySlug(this.slug);
-      console.log('Stop fetched:', this.stop);
+      // console.log('Stop fetched:', this.stop);
 
       // Recupera l'utente corrente
       const auth = getAuth();
@@ -49,13 +49,16 @@ export default {
 </script>
 <template>
   <div class="container my-5 flex-grow-1">
-    <div  class="d-flex justify-content-center align-items-center p-3">
-      <h1 class="text-primary text-center p-3">La tappa nel dettaglio</h1>
+    <div  class="d-flex justify-content-center align-items-center">
+      <div class="col-12 col-lg-8 my-3">
+            <h1 class="text-primary text-center bg-light mt-2 rounded p-4 shadow">La tappa nel dettaglio</h1>
+      </div>
       
-      <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">aggiungi tappa</RouterLink>
+      
+      <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">Aggiungi tappa</RouterLink>
     </div>
     <div class="row">
-      <div v-if="stop" class="col-12 col-lg-8 m-auto">
+      <div v-if="stop" class="col-12 col-lg-8 m-auto p-2">
         <div class="card p-4 ">
           <h4 class="fw-bold text-center">La tappa di {{ stop.paese }}:</h4>
           <hr>
@@ -89,14 +92,16 @@ export default {
           <div v-if="stop.foods">
           
             <ul class="list-unstyled text-center">
+              <li><h4>Cibo della tappa: </h4></li>
+              <hr>
               <li v-for="food in stop.foods" :key="food.id">
-                <h4>Cibi Associati: </h4>
-                <hr>
+                
+                
                 <p><span class="fw-bold">Nome del locale: </span>{{ food.locale }}</p>
                 <p><span class="fw-bold">Piatto: </span>{{ food.piatto }}</p>
-                <p><span class="fw-bold">Prezzo: </span>{{ food.prezzo }} €</p>
+                <!-- <p><span class="fw-bold">Prezzo: </span>{{ food.prezzo }} €</p>
                 <p><span class="fw-bold">Descrizione: </span>{{ food.descrizione }}</p>
-                <p><span class="fw-bold">Voto: </span>{{ food.voto }} / 10</p>
+                <p><span class="fw-bold">Voto: </span>{{ food.voto }} / 10</p> -->
                 <RouterLink class="btn btn-primary m-2" :to="{ name: 'dettagli-cibo', params: { slug: food.slug } }">Vedi
                   il cibo nel dettaglio</RouterLink>
                   <button v-if="user" @click="removeFood(food.id)" class="btn btn-danger m-2">Elimina Cibo</button>
@@ -118,7 +123,7 @@ export default {
     </div>
     <div class="d-flex justify-content-center">
 
-      <RouterLink class="btn btn-primary m-2" :to="{ name: 'tappe' }">torna alla lista delle tappe</RouterLink>
+      <RouterLink class="btn btn-primary m-2" :to="{ name: 'tappe' }">Torna alla lista delle tappe</RouterLink>
     </div>
 
 

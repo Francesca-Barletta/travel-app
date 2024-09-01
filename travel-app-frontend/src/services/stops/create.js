@@ -1,4 +1,4 @@
-// services/stops/create.js
+
 import { db } from '../../../src/firebase';
 import { collection, doc, setDoc, updateDoc, Timestamp, getDoc, getDocs, query, orderBy, limit } from 'firebase/firestore'; // Aggiungi le importazioni mancanti
 import slugify from 'slugify'; 
@@ -20,11 +20,11 @@ export const createStop = async (stopData) => {
       photoUrls: stopData.photoUrls || [],
     };
 
-    // Aggiungi il documento alla raccolta 'stops'
+    // Aggiunge il documento alla raccolta 'stops'
     const docRef = doc(collection(db, 'stops'), stopId);
     await setDoc(docRef, stopDoc);
 
-    console.log('Tappa creata con ID:', stopId);
+    // console.log('Tappa creata con ID:', stopId);
 
     // Aggiorna il documento del giorno per includere l'ID della tappa
     if (stopData.day_id) {

@@ -1,4 +1,4 @@
-// src/services/stops/update.js
+
 import { db } from '../../../src/firebase';
 import { collection, doc, updateDoc, getDoc, query, where, limit, orderBy, getDocs } from 'firebase/firestore';
 import slugify from 'slugify';
@@ -35,7 +35,7 @@ export const updateStop = async (slug, stopData) => {
       where('slug', '==', slug)
     );
     const querySnapshot = await getDocs(stopsQuery);
-    const docRef = querySnapshot.docs[0]; // Assumiamo che ci sia solo un documento corrispondente
+    const docRef = querySnapshot.docs[0]; 
 
     if (docRef) {
       const stopId = docRef.id;
@@ -49,9 +49,11 @@ export const updateStop = async (slug, stopData) => {
         attivita: stopData.attivita,
         descrizione: stopData.descrizione,
         slug: slugify(stopData.paese, { lower: true }),
-        day_id: newDayId, // Aggiorna anche l'associazione con il giorno
+         // Aggiorna anche l'associazione con il giorno
+        day_id: newDayId,
+        // Aggiorna anche l'array cibi
         cibi: stopData.cibi || [],
-        photoUrls: stopData.photoUrls || [], // Aggiorna anche l'array cibi
+        photoUrls: stopData.photoUrls || [], 
       });
       console.log('Document updated successfully');
 

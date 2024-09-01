@@ -3,7 +3,7 @@ import { db } from '../../../src/firebase';
 import { collection, doc, setDoc, query, where, getDocs } from 'firebase/firestore';
 import slugify from 'slugify'; 
 import { v4 as uuidv4 } from 'uuid';
-import { updateStopWithFood } from '../stops/edit'; // Assicurati che il percorso sia corretto
+import { updateStopWithFood } from '../stops/edit'; 
 
 export const createFood = async (foodData) => {
   try {
@@ -16,14 +16,14 @@ export const createFood = async (foodData) => {
       ...foodData,
       id: foodId,
       slug,
-      photoUrls: foodData.photoUrls || [], // Cambia da photoUrl a photoUrls
+      photoUrls: foodData.photoUrls || [], 
     };
 
     // Riferimento al documento del cibo nella collection 'foods'
     const docRef = doc(collection(db, 'foods'), foodId);
     await setDoc(docRef, foodDoc);
 
-    // Aggiorna la tappa con il nuovo ID del cibo se stop_id è fornito
+    // Aggiorna la tappa con il nuovo ID del cibo se stop_id esiste
     if (foodData.stop_id) {
       await updateStopWithFood(foodData.stop_id, foodId);
     }
@@ -42,7 +42,8 @@ export const getStopBySlug = async (slug) => {
     const querySnapshot = await getDocs(stopsQuery);
 
     if (!querySnapshot.empty) {
-      return querySnapshot.docs[0].data(); // Torna il primo documento trovato
+      // Torna il primo documento trovato
+      return querySnapshot.docs[0].data(); 
     } else {
       throw new Error('No stop found with that slug');
     }

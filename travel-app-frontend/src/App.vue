@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss" scoped>
 main{
-  background-image: url('../sfondo.jpg');
+  background-image: url('../sfondo2.jpg');
   background-size: cover;
 }
 

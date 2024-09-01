@@ -1,9 +1,9 @@
 
 
 import { db } from '../../../src/firebase';
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs} from 'firebase/firestore';
 
-// Leggere tutti i documenti
+// Leggere tutti i stops/tappe
 export const getStops = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, 'stops'));

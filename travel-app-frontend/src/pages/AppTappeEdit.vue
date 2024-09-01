@@ -35,7 +35,7 @@ export default {
     this.loadingDays = true;
 
     try {
-      // Carica i giorni disponibili
+      // Carica i giorni disponibili per associarli alle tappe
       this.days = await getDaysForStops();
 
       // Carica i dettagli della tappa usando lo slug
@@ -47,13 +47,14 @@ export default {
         };
       } else {
         console.error('Tappa non trovata');
-        this.$router.push({ name: 'tappe' }); // Reindirizza se la tappa non è trovata
+        // Reindirizza se la tappa non è trovata
+        this.$router.push({ name: 'tappe' }); 
       }
     } catch (error) {
       console.error('Errore nel caricamento dei dati:', error);
     } finally {
       this.loadingDays = false;
-      this.loadingStop = false; // Fine del caricamento della tappa
+      this.loadingStop = false;
     }
   },
   methods: {
@@ -74,10 +75,10 @@ export default {
     },
     onFileChange(e) {
       this.photoFiles = Array.from(e.target.files);
-      console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+     
     },
     async uploadPhotos() {
-      console.log('Uploading photos:', this.photoFiles); // Debug: verifica i file prima dell'upload
+      
       const photoUrls = [];
       for (const file of this.photoFiles) {
         const storageRef = ref(storage, `stops/${this.newStop.paese}/${file.name}`);
@@ -88,11 +89,12 @@ export default {
       return photoUrls;
     },
     removePhoto(index) {
-            this.newStop.photoUrls.splice(index, 1); // Rimuove la foto dall'array
+      // Rimuove la foto dall'array
+            this.newStop.photoUrls.splice(index, 1); 
         },
     },
     computed: {
-    // Computed property to access URL.createObjectURL
+
     createObjectURL() {
       return (file) => URL.createObjectURL(file);
     }
@@ -129,7 +131,7 @@ export default {
                         </option>
                     </select>
                 </div>
-                 <!-- Visualizzazione delle foto esistenti con opzione di rimozione -->
+                 <!-- Visualizzazione delle foto esistenti -->
                  <div v-if="Array.isArray(newStop.photoUrls) && newStop.photoUrls.length > 0"  class="mb-3">
                         <h3 class="text-white">Foto esistenti:</h3>
                         <div class="d-flex flex-wrap">
@@ -169,7 +171,7 @@ export default {
 
             <RouterLink class="btn btn-primary" :to="{ name: 'home' }">Torna alla home</RouterLink>
        
-            <RouterLink class="btn btn-primary" :to="{name: 'dettagli-tappa', params: { slug: this.slug }}">torna al
+            <RouterLink class="btn btn-primary" :to="{name: 'dettagli-tappa', params: { slug: this.slug }}">Torna al
                 dettaglio tappa</RouterLink>
         </div>
 

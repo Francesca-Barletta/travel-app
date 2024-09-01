@@ -58,10 +58,10 @@ export default {
     },
     onFileChange(e) {
     this.photoFiles = Array.from(e.target.files);
-    console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+   
   },
   createObjectURL(file) {
-    return URL.createObjectURL(file); // Questa funzione crea un URL per l'anteprima dell'immagine
+    return URL.createObjectURL(file); 
   },
   async uploadPhotos() {
   console.log('Uploading photos:', this.photoFiles);
@@ -141,7 +141,7 @@ export default {
       <RouterLink class="btn btn-primary" :to="{ name: 'home' }">Torna alla home</RouterLink>
 
 
-      <RouterLink class="btn btn-primary" :to="{ name: 'tappe' }">torna alla lista delle tappe</RouterLink>
+      <RouterLink class="btn btn-primary" :to="{ name: 'tappe' }">Torna alla lista delle tappe</RouterLink>
     </div>
 
   </div>

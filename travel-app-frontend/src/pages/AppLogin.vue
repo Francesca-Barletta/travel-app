@@ -7,7 +7,7 @@ export default {
       email: '',
       password: '',
       error: '',
-      passwordVisible: false // Aggiungi questa proprietà
+      passwordVisible: false
     };
   },
   methods: {
@@ -51,7 +51,7 @@ export default {
 
   
 <style lang="scss" scoped>
-/* Aggiungi questo stile per posizionare l'icona */
+
 .position-relative {
   position: relative;
 }

@@ -1,5 +1,5 @@
 import { db } from '../../../src/firebase';
-import { collection, getDocs, doc, updateDoc, query, where, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, updateDoc } from 'firebase/firestore';
 import slugify from 'slugify'; 
 
 // Funzione per aggiornare il documento di un cibo basato sullo slug

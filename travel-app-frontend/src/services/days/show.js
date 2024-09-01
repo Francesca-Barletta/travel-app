@@ -1,5 +1,5 @@
 import { db } from '../../../src/firebase';
-import { collection, query, where, getDocs, getDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs} from 'firebase/firestore';
 
 // Funzione per ottenere il giorno con tappe e cibi
 export const getDayBySlug = async (slug) => {

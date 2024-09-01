@@ -21,10 +21,10 @@ export default {
   methods: {
     onFileChange(e) {
       this.photoFiles = Array.from(e.target.files);
-      console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+    
     },
     async uploadPhotos() {
-      console.log('Uploading photos:', this.photoFiles); // Debug: verifica i file prima dell'upload
+  
       const photoUrls = [];
       for (const file of this.photoFiles) {
         const storageRef = ref(storage, `days/${this.newDay.titolo}/${file.name}`);
@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    // Computed property to access URL.createObjectURL
+ 
     createObjectURL() {
       return (file) => URL.createObjectURL(file);
     }
@@ -118,7 +118,7 @@ export default {
 
       <RouterLink class="btn btn-primary" :to="{ name: 'home' }">Torna alla home</RouterLink>
 
-      <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">torna alla lista dei giorni</RouterLink>
+      <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">Torna alla lista dei giorni</RouterLink>
     </div>
 
   </div>

@@ -1,5 +1,5 @@
 <script>
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import {  collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getAuth } from 'firebase/auth';
 
@@ -35,7 +35,7 @@ export default {
         const querySnapshot = await getDocs(collection(db, 'days'));
         this.days = querySnapshot.docs.map(doc => doc.data());
         await this.addMarkers();
-        this.addRouting(); // Aggiungi routing per tutti i punti
+        this.addRouting(); 
       } catch (error) {
         console.error('Error fetching days: ', error);
       }
@@ -49,20 +49,20 @@ export default {
 
       const geocodePromises = this.days.map(day =>
         this.geocodeCity(day.citta_alloggio).then(coords => {
-          console.log('coords', coords);
+          
 
           // Crea un marker sulla mappa alle coordinate ottenute
           let marker = L.marker(coords, {
             icon: L.divIcon({
               className: 'custom-icon',
-              html: '<i class="bi bi-geo-alt-fill" style="font-size: 24px; color: #007bff;"></i>', // Icona Bootstrap
+              html: '<i class="bi bi-geo-alt-fill" style="font-size: 24px; color: #007bff;"></i>', 
               iconSize: [32, 32], // Dimensioni dell'icona
               iconAnchor: [16, 32], // Punto dell'icona che sarà ancorato al marker
               popupAnchor: [0, -32] // Punto dal quale il popup si aprirà
             })
           }).addTo(this.map);
 
-          // Personalizza il contenuto del popup
+          // popup mappa
           const popupContent = `
             <div>
               <h5>${day.citta_alloggio}</h5>
@@ -70,9 +70,9 @@ export default {
           `;
 
           marker.bindPopup(popupContent).openPopup();
-          console.log('marker', marker);  // Logga il marcatore
+        
 
-          // Aggiungi le coordinate ai waypoints
+          // Aggiunge le coordinate ai waypoints
           this.waypoints.push(L.latLng(coords[0], coords[1]));
         }).catch(error => {
           console.error('Error geocoding city: ', error);
@@ -87,11 +87,12 @@ export default {
       try {
         const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`);
         const data = await response.json();
-        console.log('Geocode response:', data);
+      
 
         if (data && data.length > 0) {
           const position = data[0];
-          return [position.lat, position.lon]; // Restituisce le coordinate come [lat, lon]
+          // Restituisce le coordinate come [lat, lon]
+          return [position.lat, position.lon]; 
         } else {
           throw new Error('City not found');
         }
@@ -102,20 +103,19 @@ export default {
     },
 
     addRouting() {
-      if (this.waypoints.length < 2) return; // Assicurati di avere almeno due waypoints
+      if (this.waypoints.length < 2) return; 
 
-      // Aggiungi il routing alla mappa
+      // Aggiunge il routing alla mappa
       L.Routing.control({
         waypoints: this.waypoints,
-        router: L.Routing.osrmv1({ language: 'it' }), // Utilizza il router di default di Leaflet Routing Machine
-        routeWhileDragging: true,
-        createMarker: () => null, // Non creare marker di routing
-        // Opzioni per nascondere il pannello di istruzioni
+         // Utilizza il router di default di Leaflet Routing Machine
+        router: L.Routing.osrmv1({ language: 'it' }), 
+        createMarker: () => null, 
+   
         
       }).addTo(this.map);
 
-      // Logga i waypoints per il debug
-      console.log('waypoints', this.waypoints);
+  
     }
   },
 
@@ -145,9 +145,6 @@ export default {
   line-height: 32px;
 }
 
-/* Nascondere il pannello delle indicazioni */
 
-
-/* Se desideri nascondere altre parti del pannello, puoi aggiungere altre regole */
 
 </style>

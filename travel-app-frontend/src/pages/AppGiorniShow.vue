@@ -16,9 +16,9 @@ export default {
   async created() {
     try {
       this.day = await getDayBySlug(this.slug);
-      console.log('giorno', this.day);
-      console.log('slug', this.slug);
-      console.log('dayId', this.day.id);
+      // console.log('giorno', this.day);
+      // console.log('slug', this.slug);
+      // console.log('dayId', this.day.id);
     } catch (error) {
       console.error('Error fetching day: ', error);
     }
@@ -56,7 +56,7 @@ export default {
           await deleteStopAndAssociates(stopId, this.day.id);
           alert('Tappa eliminata correttamente.');
           
-          // Aggiorna la lista delle tappe senza la tappa eliminata
+          // Aggiorna la lista delle tappe
           this.day.stops = this.day.stops.filter(stop => stop.id !== stopId);
         } catch (error) {
           console.error('Errore durante l\'eliminazione della tappa:', error);
@@ -72,12 +72,13 @@ export default {
 <template>
 
   <div class="container my-5 flex-grow-1">
-    <div class="d-flex justify-content-center align-items-center gap-4 p-3">
+    <div class="container d-flex justify-content-center p-3 bg-light rounded my-2 col-12 col-lg-8 align-items-center gap-4">
+
       <h1 class="text-primary">Il giorno nel dettaglio</h1>
       <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">Torna alla lista di giorni</RouterLink>
     </div>
     <div class="row">
-      <div v-if="day" class="col-12 col-lg-8 m-auto">
+      <div v-if="day" class="col-12 col-lg-8 p-2 m-auto">
         <div class="card p-4">
           <h4 class="fw-bold">{{ day.titolo }}: {{ day.regione }}</h4>
           <hr>
@@ -120,20 +121,23 @@ export default {
 
                
              
-                <ul class="list-unstyled">
-                  
+              <ul class="list-unstyled">
+                  <li v-if="day.stops[0].cibi.length > 0">
+                    <!-- {{ console.log(day.stops[0].cibi) }} -->
+                    <hr>
+                    <h5 class="fw-bold text-center">Il cibo della tappa:</h5>
+                    <hr>
+                  </li>
                   
                   <li v-for="food in stop.foods" :key="food.id" class="text-center">
-                    <hr>
-                    <h5 class="fw-bold">Il cibo della tappa:</h5>
-                    <hr>
                     <p><span class="fw-bold">Piatto: </span>{{ food.piatto }}</p>
-                    <p><span class="fw-bold">Locale: </span>{{ food.locale }}</p>
+                    <img v-if="food.photoUrls" class="d-block w-100" :src="food.photoUrls[0]" :alt="food.piatto">
+                    <p  class="mt-3"><span class="fw-bold mt-3">Locale: </span>{{ food.locale }}</p>
                     <p><span class="fw-bold">Prezzo: </span>{{ food.prezzo }} €</p>
                     <p class="fw-bold ps-2">Descrizione:</p>
                     <p class="ps-2">{{ food.descrizione }}</p>
                     <p><span class="fw-bold">Voto: </span>{{ food.voto }} / 10</p>
-
+                    <hr>
                   </li>
                 </ul>
 
@@ -145,7 +149,7 @@ export default {
               <button @click="deleteDay" :disabled="loading" class="btn btn-danger">
                 {{ loading ? 'Elimino...' : 'Elimina giorno' }}
               </button>
-              <RouterLink class="btn btn-primary" :to="{ name: 'modifica-giorno', params: { slug: day.slug } }">modifica
+              <RouterLink class="btn btn-primary" :to="{ name: 'modifica-giorno', params: { slug: day.slug } }">Modifica
                 il
                 giorno</RouterLink>
 

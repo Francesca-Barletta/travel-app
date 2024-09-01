@@ -79,10 +79,10 @@ export default {
         },
         onFileChange(e) {
       this.photoFiles = Array.from(e.target.files);
-      console.log('Photo files:', this.photoFiles); // Debug: verifica i file caricati
+  
     },
     async uploadPhotos() {
-      console.log('Uploading photos:', this.photoFiles); // Debug: verifica i file prima dell'upload
+     
       const photoUrls = [];
       for (const file of this.photoFiles) {
         const storageRef = ref(storage, `foods/${this.newFood.paese}/${file.name}`);
@@ -93,11 +93,12 @@ export default {
       return photoUrls;
     },
     removePhoto(index) {
-            this.newFood.photoUrls.splice(index, 1); // Rimuove la foto dall'array
+        // Rimuove la foto dall'array
+            this.newFood.photoUrls.splice(index, 1); 
         },
     },
     computed: {
-    // Computed property to access URL.createObjectURL
+    // Computed accede a URL.createObjectURL
     createObjectURL() {
       return (file) => URL.createObjectURL(file);
     }
@@ -134,7 +135,7 @@ export default {
                 <label for="voto" class="form-label text-white">Inserisci voto</label>
                 <input class="form-control" type="number" v-model="newFood.voto" id="voto" >
             </div>
-            <!-- Visualizzazione delle foto esistenti con opzione di rimozione -->
+            <!-- Visualizzazione delle foto esistenti-->
             <div v-if="Array.isArray(newFood.photoUrls) && newFood.photoUrls.length > 0" class="mb-3">
                         <h3 class="text-white">Foto esistenti:</h3>
                         <div class="d-flex flex-wrap">
@@ -178,7 +179,7 @@ export default {
 
             <div>
 
-                <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa' }">torna al dettaglio della tappa</RouterLink>
+                <RouterLink class="btn btn-primary" :to="{ name: 'dettagli-tappa' }">Torna al dettaglio della tappa</RouterLink>
             </div>
 
         </div>

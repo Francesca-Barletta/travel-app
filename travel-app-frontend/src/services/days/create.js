@@ -8,14 +8,14 @@ export const createDay = async (dayData) => {
     // Crea uno slug basato sul titolo
     const dayId = uuidv4();
     const slug = slugify(dayData.titolo, { lower: true, strict: true });
-    const currentTimestamp = Timestamp.now(); // Ottiene il timestamp corrente
+    const currentTimestamp = Timestamp.now(); 
     const dayDoc = {
       ...dayData,
       id: dayId, 
       slug,
       creazione: currentTimestamp,
       tappe: dayData.tappe || [],
-      photoUrls: dayData.photoUrls || [], // Cambia da photoUrl a photoUrls
+      photoUrls: dayData.photoUrls || [],
     };
 
     // Aggiunge il documento alla raccolta 'days'

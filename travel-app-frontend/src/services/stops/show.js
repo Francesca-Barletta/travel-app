@@ -1,5 +1,5 @@
 import { db } from '../../../src/firebase';
-import { collection, query, where, getDocs, getDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs} from 'firebase/firestore';
 
 // Funzione per ottenere la tappa con giorno e cibo
 export const getStopBySlug = async (slug) => {
@@ -30,7 +30,8 @@ export const getStopBySlug = async (slug) => {
         stopData.day = day;
       } else {
         console.error('Day not found for ID:', stopData.day_id);
-        stopData.day = null; // Imposta a null o gestisci come necessario
+         // Imposta a null
+        stopData.day = null;
       }
     }
 
@@ -39,7 +40,7 @@ export const getStopBySlug = async (slug) => {
     const foodsSnapshot = await getDocs(foodsQuery);
     const foods = foodsSnapshot.docs.map(foodDoc => ({ id: foodDoc.id, ...foodDoc.data() }));
 
-    console.log('Foods:', foods);
+    // console.log('Foods:', foods);
 
     return {
       ...stopData,
