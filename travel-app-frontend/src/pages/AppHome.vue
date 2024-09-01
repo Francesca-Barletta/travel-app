@@ -65,7 +65,7 @@ export default {
         <div class="d-flex justify-content-center align-items-center">
             <h1 class="text-primary bg-light rounded p-4 shadow">Il mio diario di viaggio</h1>
         </div>
-        <div class="container w-75 bg-light rounded p-3 mb-5">
+        <div class="container w-100 bg-light rounded p-3 mb-5">
 
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
