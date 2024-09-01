@@ -28,13 +28,13 @@ export default {
 <template>
   <div class="container my-5 flex-grow-1">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="w-100 my-5">
-            <h1 class="text-primary text-center bg-light mt-2 rounded p-4 shadow">Le tappe del viaggio</h1>
+      <div class="w-100 my-4 rounded bg-light d-flex justify-content-center align-items-center">
+            <h1 class="text-primary text-center bg-light p-4 ">Le tappe del viaggio</h1>
+            <div v-if="user">
+      
+              <RouterLink class="btn btn-primary ms-3" to="/tappe/create">Aggiungi tappe</RouterLink>
+            </div>
         </div>
-      <div v-if="user">
-
-        <RouterLink class="btn btn-primary ms-3" to="/tappe/create">Aggiungi tappe</RouterLink>
-      </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-gap-4">
       <div v-for="stop in stops" :key="stop.id" class="col">

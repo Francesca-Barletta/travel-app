@@ -50,12 +50,12 @@ export default {
 <template>
   <div class="container my-5 flex-grow-1">
     <div  class="d-flex justify-content-center align-items-center">
-      <div class="col-12 col-lg-8 my-3">
-            <h1 class="text-primary text-center bg-light mt-2 rounded p-4 shadow">La tappa nel dettaglio</h1>
+      <div class="col-12 col-lg-8 my-3 rounded bg-light d-flex justify-content-center align-items-center">
+            <h1 class="text-primary text-center p-4 ">La tappa nel dettaglio</h1>
+            <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">Aggiungi tappa</RouterLink>
       </div>
       
       
-      <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">Aggiungi tappa</RouterLink>
     </div>
     <div class="row">
       <div v-if="stop" class="col-12 col-lg-8 m-auto p-2">

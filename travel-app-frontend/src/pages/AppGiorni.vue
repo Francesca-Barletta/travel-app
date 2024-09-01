@@ -69,14 +69,14 @@ export default {
 <template>
   <div class="container my-5 flex-grow-1">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="w-100 my-5">
-            <h1 class="text-primary text-center bg-light mt-2 rounded p-4 shadow">I giorni del viaggio</h1>
+      <div class="w-100 my-3 rounded bg-light d-flex justify-content-center align-items-center">
+            <h1 class="text-primary text-center p-4">I giorni del viaggio</h1>
+            <div v-if="user">
+      
+              <RouterLink class="btn btn-primary mt-3 ms-3" :to="{ name: 'aggiungi-giorni' }">Aggiungi giorni</RouterLink>
+            </div>
         </div>
       
-      <div v-if="user">
-
-        <RouterLink class="btn btn-primary mt-3 ms-3" :to="{ name: 'aggiungi-giorni' }">Aggiungi giorni</RouterLink>
-      </div>
     </div>
     <div class="row row-gap-3 row-cols-1 row-cols-md-2 row-cols-lg-4">
       <div v-for="day in days" :key="day.id" class="col">
