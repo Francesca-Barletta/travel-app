@@ -63,7 +63,7 @@ export default {
 <template>
     <div class="container flex-grow-1 d-flex flex-column justify-content-center align-items-center">
         <div class="d-flex justify-content-center align-items-center">
-            <h1 class="text-primary bg-light rounded p-4 shadow">Il mio diario di viaggio</h1>
+            <h1 class="text-primary bg-light mt-2 rounded p-4 shadow">Il mio diario di viaggio</h1>
         </div>
         <div class="container w-100 bg-light rounded p-3 mb-5">
 

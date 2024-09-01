@@ -55,7 +55,7 @@ export default {
       <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">aggiungi tappa</RouterLink>
     </div>
     <div class="row">
-      <div v-if="stop" class="col-8 m-auto">
+      <div v-if="stop" class="col-12 col-lg-8 m-auto">
         <div class="card p-4 ">
           <h4 class="fw-bold text-center">La tappa di {{ stop.paese }}:</h4>
           <hr>

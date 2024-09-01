@@ -29,8 +29,8 @@ export default {
 
 <template>
   <h1 class="text-center text-light my-5">Login</h1>
-  <div class="d-flex justify-content-center p-4 align-items-center gap-4 m-5 bg-primary rounded shadow">
-    <form @submit.prevent="login">
+  <div class="d-flex justify-content-center w-75 m-auto p-4 align-items- gap-4 m-5 bg-primary rounded shadow">
+    <form @submit.prevent="login" class="w-75">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label text-light">Email:</label>
         <input type="email"  autocomplete="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
