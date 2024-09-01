@@ -102,7 +102,7 @@ export default {
 <template>
     <div class="container my-5 ">
 
-        <h1 class="text-primary text-center">Qui il form per modificare la tappa</h1>
+        <h1 class="text-primary text-center">Modifica una tappa</h1>
         <div class="container bg-primary shadow rounded my-5 p-3">
 
             <form @submit.prevent="handleUpdateStop">

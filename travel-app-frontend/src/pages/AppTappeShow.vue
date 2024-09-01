@@ -50,7 +50,7 @@ export default {
 <template>
   <div class="container my-5 flex-grow-1">
     <div  class="d-flex justify-content-center align-items-center p-3">
-      <h1 class="text-primary text-center p-3">Qui la tappa nel dettaglio</h1>
+      <h1 class="text-primary text-center p-3">La tappa nel dettaglio</h1>
       
       <RouterLink  v-if="user" class="btn btn-primary m-2" :to="{ name: 'aggiungi-tappe' }">aggiungi tappa</RouterLink>
     </div>
@@ -65,7 +65,7 @@ export default {
               <!-- Slide items -->
               <div v-for="(url, index) in stop.photoUrls" :key="index"
                 :class="['carousel-item', { active: index === 0 }]">
-                <img class="d-block w-100" :src="url" :alt="'Slide ' + (index + 1)">
+                <img class="d-block w-100"  style="aspect-ratio: 16/9; object-fit: cover;" :src="url" :alt="'Slide ' + (index + 1)">
               </div>
             </div>
             <!-- Controls -->

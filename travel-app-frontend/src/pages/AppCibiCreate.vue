@@ -81,7 +81,7 @@ export default {
 <template>
   <div class="container my-5 ">
 
-    <h1 class="text-primary text-center">Qui il form per creare cibi</h1>
+    <h1 class="text-primary text-center">Inserisci un nuovo cibo</h1>
     <div class="container bg-primary shadow rounded my-5 p-3">
 
       <form @submit.prevent="addFood">

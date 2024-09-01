@@ -73,7 +73,7 @@ export default {
 
   <div class="container my-5 flex-grow-1">
     <div class="d-flex justify-content-center align-items-center gap-4 p-3">
-      <h1 class="text-primary">Qui il giorno nel dettaglio</h1>
+      <h1 class="text-primary">Il giorno nel dettaglio</h1>
       <RouterLink class="btn btn-primary" :to="{ name: 'giorni' }">Torna alla lista di giorni</RouterLink>
     </div>
     <div class="row">
@@ -83,11 +83,11 @@ export default {
           <hr>
           
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
+    <div class="carousel-inner mb-3">
       <!-- Slide items -->
       <div v-for="(url, index) in day.photoUrls" :key="index"
            :class="['carousel-item', { active: index === 0 }]">
-        <img class="d-block w-100" :src="url" :alt="'Slide ' + (index + 1)">
+        <img class="d-block w-100"  style="aspect-ratio: 16/9; object-fit: cover;" :src="url" :alt="'Slide ' + (index + 1)">
       </div>
     </div>
     <!-- Controls -->
@@ -100,21 +100,24 @@ export default {
       <span class="visually-hidden">Next</span>
     </a>
   </div>
-            <p><span class="fw-bold">Alloggio: </span>{{ day.alloggio }}</p>
-            <p><span class="fw-bold">Località alloggio: </span>{{ day.citta_alloggio }}</p>
+            <p><span class="fw-bold p-2">Alloggio: </span>{{ day.alloggio }}</p>
+            <p><span class="fw-bold p-2">Località alloggio: </span>{{ day.citta_alloggio }}</p>
             <ul class="list-unstyled  ">
-              <li v-for="stop in day.stops" :key="stop.id" class="bg-primary bg-gradient p-2 rounded m-2">
+              <li v-for="stop in day.stops" :key="stop.id" class=" border border-primary p-2 rounded m-2">
            
                
-                <div class="d-flex justify-content-between align-items-center bg-light rounded p-3 my-2">
+                <div class="d-flex justify-content-between align-items-center p-3 my-2">
                   <h4 class="text-center">Tappa a {{ stop.paese }}</h4>
                   <button v-if="user" @click="deleteStop(stop.id)" :disabled="loading" class="btn btn-danger">
                     {{ loading ? 'Elimino...' : 'Elimina tappa' }}
                   </button>
+                  
                 </div>
-              
-                <p><span class="fw-bold">Attività: </span>{{ stop.attivita }}</p>
-                <p><span class="fw-bold">Descrizione: </span>{{ stop.descrizione }}</p>
+                <hr>
+                <p><span class="fw-bold p-2">Attività: </span>{{ stop.attivita }}</p>
+                <p class="fw-bold ps-2">Descrizione:</p>
+                <p class="ps-2">{{ stop.descrizione }}</p>
+
                
              
                 <ul class="list-unstyled">
@@ -127,6 +130,8 @@ export default {
                     <p><span class="fw-bold">Piatto: </span>{{ food.piatto }}</p>
                     <p><span class="fw-bold">Locale: </span>{{ food.locale }}</p>
                     <p><span class="fw-bold">Prezzo: </span>{{ food.prezzo }} €</p>
+                    <p class="fw-bold ps-2">Descrizione:</p>
+                    <p class="ps-2">{{ food.descrizione }}</p>
                     <p><span class="fw-bold">Voto: </span>{{ food.voto }} / 10</p>
 
                   </li>
@@ -135,8 +140,8 @@ export default {
                
               </li>
             </ul>
-            <div v-if="user" class="d-flex justify-content-between align-items-center p-3">
-              <hr>
+            <div v-if="user" class="d-flex justify-content-between align-items-center p-2">
+              
               <button @click="deleteDay" :disabled="loading" class="btn btn-danger">
                 {{ loading ? 'Elimino...' : 'Elimina giorno' }}
               </button>

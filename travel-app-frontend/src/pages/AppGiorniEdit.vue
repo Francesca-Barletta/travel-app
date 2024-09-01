@@ -86,7 +86,7 @@ export default {
     <div v-if="user">
         <div class="container my-5 ">
 
-            <h1 class="text-primary text-center">Qui il form per modificare il giorno</h1>
+            <h1 class="text-primary text-center">Moifica il giorno</h1>
             <div class="container bg-primary shadow rounded my-5 p-3">
 
                 <form @submit.prevent="handleUpdateDay">

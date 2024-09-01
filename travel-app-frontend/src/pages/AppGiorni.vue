@@ -68,7 +68,7 @@ export default {
 <template>
   <div class="container my-5 flex-grow-1">
     <div class="d-flex justify-content-between align-items-center p-3">
-      <h1 class="text-primary">Qui i giorni del viaggio</h1>
+      <h1 class="text-primary">I giorni del viaggio</h1>
       <div v-if="user">
 
         <RouterLink class="btn btn-primary mt-3 ms-3" :to="{ name: 'aggiungi-giorni' }">aggiungi giorni</RouterLink>

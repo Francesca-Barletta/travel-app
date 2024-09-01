@@ -88,7 +88,7 @@ export default {
 <template>
   <div class="container my-5 ">
 
-    <h1 class="text-primary text-center">Qui il form per creare tappe</h1>
+    <h1 class="text-primary text-center">Aggiungi una tappa</h1>
     <div class="container bg-primary shadow rounded my-5 p-3">
 
       <form @submit.prevent="addStop">

@@ -45,7 +45,7 @@ export default {
     <div class="row">
       <div v-if="food" class="col-8 m-auto">
         <div class="card p-2">
-          <h4 class="text-center p-3"><span class="fw-boldp-3">Locale:</span>{{ food.locale }}</h4>
+          <h4 class="text-center p-3"><span class="fw-boldp-3">Locale: </span>{{ food.locale }}</h4>
           <!-- inizio carosello -->
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
